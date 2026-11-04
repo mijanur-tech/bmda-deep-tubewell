@@ -1,0 +1,104 @@
+﻿# Secrets and environment files
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node.js and React
+node_modules/
+dist/
+build/
+coverage/
+.vite/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+*.dump
+*.backup
+
+# Backups and generated files
+backups/
+_backups/
+*.bak
+*.tmp
+*.log
+*.zip
+*.7z
+*.rar
+
+# IDE and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local development caches
+dev_cache/
+.cache/
+temp/
+tmp/
+
+# Development backup copies
+*.backup-*
+*.old
+*.orig
+*.backup
+
+# Generated test reports
+test_*.pdf
+
+# Previous development versions
+*.before-*
+
+# ==========================================
+# BMDA - Permanent Backup Protection
+# ==========================================
+
+# Backup directories (at any level)
+backup/
+backups/
+_backup/
+_backups/
+backup-*/
+backups-*/
+
+# Backup file extensions and naming patterns
+*.bak
+*.backup
+*.backup-*
+*.before-*
+*.old
+*.orig
+*.save
+*.swp
+*.swo
+*~
+
+# Generated backup archives
+*.zip
+*.7z
+*.rar
+
+
+# BMDA generated development artifacts
+openapi.json
+step*_models.txt
+test_*.pdf
+test_*.xlsx
+

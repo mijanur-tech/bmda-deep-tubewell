@@ -1,0 +1,177 @@
+﻿.bmda-ae-field-coverage {
+  background: #ffffff;
+  border: 1px solid #dcebe1;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 8px 28px rgba(25, 91, 52, 0.05);
+  min-width: 0;
+}
+
+.bmda-ae-field-coverage-heading h2 {
+  margin: 0;
+  color: #174c32;
+  font-size: 21px;
+  font-weight: 750;
+  line-height: 1.35;
+}
+
+.bmda-ae-field-coverage-heading p {
+  margin: 8px 0 0;
+  color: #64786b;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.bmda-ae-field-coverage-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.bmda-ae-field-coverage-summary span {
+  background: #f1f9f3;
+  border: 1px solid #deeee2;
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: #4d6657;
+  font-size: 13px;
+}
+
+.bmda-ae-field-coverage-summary strong {
+  color: #17683d;
+  font-size: 15px;
+}
+
+.bmda-ae-field-coverage-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 16px;
+}
+
+.bmda-ae-field-coverage-item {
+  background: linear-gradient(145deg, #ffffff, #f6fbf7);
+  border: 1px solid #e0ece3;
+  border-radius: 15px;
+  padding: 18px;
+  min-width: 0;
+}
+
+.bmda-ae-field-coverage-item-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bmda-ae-field-coverage-item-top h3 {
+  margin: 0 0 9px;
+  color: #1e3e2d;
+  font-size: 16px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.bmda-ae-field-status-active,
+.bmda-ae-field-status-inactive {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.bmda-ae-field-status-active {
+  background: #e5f7eb;
+  color: #177341;
+}
+
+.bmda-ae-field-status-inactive {
+  background: #f1f2f4;
+  color: #69727c;
+}
+
+.bmda-ae-field-coverage-numbers {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.bmda-ae-field-coverage-numbers strong {
+  color: #14783e;
+  font-size: 27px;
+  line-height: 1;
+}
+
+.bmda-ae-field-coverage-numbers span {
+  color: #6b7c70;
+  font-size: 11px;
+  text-align: right;
+}
+
+.bmda-ae-field-coverage-progress-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 22px 0 9px;
+  color: #5d7164;
+  font-size: 12px;
+}
+
+.bmda-ae-field-coverage-progress-label strong {
+  color: #17683d;
+}
+
+.bmda-ae-field-coverage-progress {
+  height: 9px;
+  overflow: hidden;
+  background: #e6efe8;
+  border-radius: 999px;
+}
+
+.bmda-ae-field-coverage-progress > div {
+  height: 100%;
+  background: linear-gradient(90deg, #3dbb70, #15834a);
+  border-radius: inherit;
+  transition: width 250ms ease;
+}
+
+.bmda-ae-field-coverage-error {
+  color: #b42318;
+  background: #fff4f2;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.bmda-ae-field-coverage-warning {
+  color: #925c11;
+  background: #fff8e8;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+  .bmda-ae-field-coverage {
+    padding: 17px;
+    border-radius: 14px;
+  }
+
+  .bmda-ae-field-coverage-heading h2 {
+    font-size: 18px;
+  }
+
+  .bmda-ae-field-coverage-summary {
+    gap: 8px;
+  }
+
+  .bmda-ae-field-coverage-summary span {
+    flex: 1 1 100%;
+  }
+
+  .bmda-ae-field-coverage-item {
+    padding: 15px;
+  }
+}

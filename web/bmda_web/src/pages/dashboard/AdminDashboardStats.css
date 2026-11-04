@@ -1,0 +1,103 @@
+﻿/* BMDA Admin Dashboard - Live User Statistics */
+
+.bmda-admin-dashboard .admin-stats-section {
+  margin-bottom: 28px;
+}
+
+.bmda-admin-dashboard .admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.bmda-admin-dashboard .admin-stats-card {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--ad-border);
+  border-radius: 15px;
+  background: #ffffff;
+  box-shadow: 0 5px 18px rgba(20, 80, 40, 0.045);
+}
+
+.bmda-admin-dashboard .admin-stats-title {
+  margin: 0 0 16px;
+  color: var(--ad-muted);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.bmda-admin-dashboard .admin-stats-value {
+  margin: 0 0 12px;
+  color: var(--ad-green-dark);
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 800;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.bmda-admin-dashboard .admin-stats-description {
+  margin: 0;
+  color: var(--ad-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.bmda-admin-dashboard .admin-stats-notice {
+  padding: 22px;
+  border: 1px solid var(--ad-border);
+  border-radius: 14px;
+  background: #ffffff;
+  color: var(--ad-muted);
+  font-size: 14px;
+}
+
+.bmda-admin-dashboard .admin-stats-error {
+  border-color: #f2cccc;
+  color: #a32929;
+}
+
+.bmda-admin-dashboard .admin-stats-error p {
+  margin: 0 0 14px;
+}
+
+.bmda-admin-dashboard .admin-stats-retry {
+  min-height: 42px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 9px;
+  background: var(--ad-green);
+  color: #ffffff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.bmda-admin-dashboard .admin-stats-retry:hover {
+  background: var(--ad-green-dark);
+}
+
+.bmda-admin-dashboard .admin-stats-retry:focus-visible {
+  outline: 3px solid #91d6ac;
+  outline-offset: 3px;
+}
+
+@media (max-width: 1000px) {
+  .bmda-admin-dashboard .admin-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .bmda-admin-dashboard .admin-stats-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .bmda-admin-dashboard .admin-stats-card {
+    padding: 18px;
+  }
+
+  .bmda-admin-dashboard .admin-stats-title {
+    margin-bottom: 10px;
+  }
+}

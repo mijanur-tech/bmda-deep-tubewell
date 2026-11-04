@@ -1,0 +1,224 @@
+/* ============================================================
+   BMDA - EDIT TUBEWELL PAGE
+   Green + White theme. Scoped to this page only.
+   ============================================================ */
+
+/* SECTION 1: Main page */
+.bmda-edit-tubewell {
+  --etw-green: #16834a;
+  --etw-green-dark: #116738;
+  --etw-border: #dbe9df;
+  --etw-text: #20352a;
+  --etw-muted: #64776b;
+  min-height: 100vh;
+  padding: 28px;
+  background: #f5faf6;
+  color: var(--etw-text);
+  text-align: left;
+  font-family: "Segoe UI", Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+/* SECTION 2: Header */
+.bmda-edit-tubewell .etw-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+.bmda-edit-tubewell .etw-eyebrow {
+  margin: 0 0 8px;
+  color: var(--etw-green);
+  font-weight: 600;
+  font-size: 13px;
+}
+.bmda-edit-tubewell .etw-title {
+  margin: 0;
+  font-size: 29px;
+  font-weight: 700;
+  color: #145c36;
+}
+.bmda-edit-tubewell .etw-subtitle {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: var(--etw-muted);
+}
+
+/* SECTION 3: Form card */
+.bmda-edit-tubewell .etw-card {
+  width: 100%;
+  max-width: 850px;
+  background: #fff;
+  border: 1px solid var(--etw-border);
+  border-radius: 16px;
+  box-shadow: 0 6px 22px rgba(20, 80, 40, .06);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.bmda-edit-tubewell .etw-card-heading {
+  padding: 24px 26px 18px;
+  border-bottom: 1px solid var(--etw-border);
+  background: #f0f8f2;
+}
+.bmda-edit-tubewell .etw-card-heading h2 {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #145c36;
+}
+.bmda-edit-tubewell .etw-card-heading p {
+  margin: 0;
+  color: var(--etw-muted);
+  font-size: 14px;
+}
+.bmda-edit-tubewell .etw-card form {
+  padding: 26px;
+}
+
+/* SECTION 4: Form fields */
+.bmda-edit-tubewell .etw-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 18px;
+}
+.bmda-edit-tubewell .etw-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+.bmda-edit-tubewell .etw-field-full {
+  grid-column: 1 / -1;
+}
+.bmda-edit-tubewell .etw-field label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #355541;
+}
+.bmda-edit-tubewell .etw-step {
+  display: inline-flex;
+  width: 23px;
+  height: 23px;
+  align-items: center;
+  justify-content: center;
+  background: #def2e4;
+  border-radius: 50%;
+  color: #116738;
+  font-size: 12px;
+  font-weight: 700;
+}
+.bmda-edit-tubewell .etw-field select {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid #c9dccc;
+  border-radius: 9px;
+  background: #fff;
+  color: var(--etw-text);
+  font: inherit;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+.bmda-edit-tubewell .etw-field select:focus-visible {
+  outline: 2px solid #9ad8ae;
+  border-color: var(--etw-green);
+}
+.bmda-edit-tubewell .etw-field select:disabled {
+  background: #f3f6f4;
+  color: #718276;
+  cursor: not-allowed;
+}
+.bmda-edit-tubewell .etw-help {
+  margin: 0;
+  color: #995b1f;
+  font-size: 13px;
+}
+
+/* SECTION 5: Buttons */
+.bmda-edit-tubewell .etw-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--etw-border);
+}
+.bmda-edit-tubewell .etw-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 42px;
+  padding: 10px 18px;
+  border-radius: 9px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background .2s ease;
+}
+.bmda-edit-tubewell .etw-button-primary {
+  color: #fff;
+  background: var(--etw-green);
+}
+.bmda-edit-tubewell .etw-button-primary:hover:not(:disabled) {
+  background: var(--etw-green-dark);
+}
+.bmda-edit-tubewell .etw-button-outline {
+  background: #fff;
+  color: var(--etw-green-dark);
+  border-color: #b8d9c3;
+}
+.bmda-edit-tubewell .etw-button-outline:hover {
+  background: #e8f5ec;
+}
+.bmda-edit-tubewell .etw-button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+.bmda-edit-tubewell .etw-button:focus-visible {
+  outline: 3px solid #92d7aa;
+  outline-offset: 2px;
+}
+
+/* SECTION 6: Messages */
+.bmda-edit-tubewell .etw-alert,
+.bmda-edit-tubewell .etw-loading {
+  max-width: 850px;
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+.bmda-edit-tubewell .etw-alert-error {
+  background: #fff1f1;
+  color: #9b2222;
+  border-color: #f3c7c7;
+}
+.bmda-edit-tubewell .etw-alert-success {
+  background: #e9f8ee;
+  color: #176534;
+  border-color: #b8e0c5;
+}
+.bmda-edit-tubewell .etw-loading {
+  background: #fff;
+  color: var(--etw-muted);
+  border-color: var(--etw-border);
+}
+
+/* SECTION 7: Small screens */
+@media (max-width: 700px) {
+  .bmda-edit-tubewell { padding: 14px; }
+  .bmda-edit-tubewell .etw-title { font-size: 23px; }
+  .bmda-edit-tubewell .etw-grid { grid-template-columns: 1fr; }
+  .bmda-edit-tubewell .etw-card-heading,
+  .bmda-edit-tubewell .etw-card form { padding: 18px; }
+  .bmda-edit-tubewell .etw-header { align-items: flex-start; }
+}

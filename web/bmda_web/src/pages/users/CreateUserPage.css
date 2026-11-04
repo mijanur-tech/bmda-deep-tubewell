@@ -1,0 +1,175 @@
+/* ============================================================
+   BMDA CREATE USER PAGE — GREEN + WHITE
+   All selectors are scoped to this single page.
+   ============================================================ */
+
+/* SECTION 1: Page and header */
+.bmda-create-user {
+  min-height: 100%;
+  padding: 28px;
+  box-sizing: border-box;
+  background: #f5faf6;
+  color: #20352a;
+  text-align: left;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+.bmda-create-user .cu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.bmda-create-user .cu-eyebrow {
+  color: #16834a;
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0 0 7px;
+}
+.bmda-create-user .cu-header h1 {
+  color: #145c36;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 7px;
+  line-height: 1.25;
+}
+.bmda-create-user .cu-header p:last-child {
+  color: #64776b;
+  font-size: 14px;
+}
+
+/* SECTION 2: White form card */
+.bmda-create-user .cu-card {
+  max-width: 960px;
+  padding: 26px;
+  background: #fff;
+  border: 1px solid #dbe9df;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(20, 80, 40, .05);
+  box-sizing: border-box;
+}
+.bmda-create-user .cu-card-heading {
+  padding-bottom: 18px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e5efe8;
+}
+.bmda-create-user .cu-card-heading h2 {
+  color: #145c36;
+  font-size: 19px;
+  font-weight: 700;
+  margin: 0 0 5px;
+}
+.bmda-create-user .cu-card-heading p {
+  color: #64776b;
+  font-size: 13px;
+}
+
+/* SECTION 3: Form grid and inputs */
+.bmda-create-user .cu-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.bmda-create-user .cu-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.bmda-create-user .cu-field label {
+  color: #355541;
+  font-size: 13px;
+  font-weight: 650;
+}
+.bmda-create-user .cu-field label span { color: #b42318; }
+.bmda-create-user .cu-field input,
+.bmda-create-user .cu-field select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  border: 1px solid #c9dccc;
+  border-radius: 9px;
+  background: #fff;
+  color: #20352a;
+  font: inherit;
+  font-size: 14px;
+}
+.bmda-create-user .cu-field input:focus-visible,
+.bmda-create-user .cu-field select:focus-visible {
+  outline: 2px solid #9ad8ae;
+  outline-offset: 1px;
+  border-color: #16834a;
+}
+.bmda-create-user .cu-field :disabled {
+  cursor: not-allowed;
+  background: #f3f6f4;
+  color: #667970;
+}
+.bmda-create-user .cu-help {
+  color: #9a3412;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* SECTION 4: Alerts */
+.bmda-create-user .cu-alert,
+.bmda-create-user .cu-notice {
+  margin: 18px 0 0;
+  padding: 12px 14px;
+  border-radius: 9px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.bmda-create-user .cu-alert-error {
+  background: #fff2f2;
+  border: 1px solid #f4c7c7;
+  color: #9b221b;
+}
+.bmda-create-user .cu-alert-success {
+  background: #e7f7eb;
+  border: 1px solid #b9e4c7;
+  color: #176534;
+}
+
+/* SECTION 5: Buttons */
+.bmda-create-user .cu-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+.bmda-create-user .cu-button {
+  padding: 11px 18px;
+  border-radius: 9px;
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+  font-family: inherit;
+}
+.bmda-create-user .cu-button-primary {
+  background: #16834a;
+  color: #fff;
+}
+.bmda-create-user .cu-button-primary:hover:not(:disabled) { background: #116738; }
+.bmda-create-user .cu-button-outline {
+  background: #fff;
+  color: #116738;
+  border-color: #b8d9c3;
+}
+.bmda-create-user .cu-button-outline:hover { background: #e8f5ec; }
+.bmda-create-user .cu-button:focus-visible {
+  outline: 3px solid #92d7aa;
+  outline-offset: 2px;
+}
+.bmda-create-user .cu-button:disabled { opacity: .7; cursor: wait; }
+
+/* SECTION 6: Responsive design */
+@media (max-width: 760px) {
+  .bmda-create-user { padding: 16px; }
+  .bmda-create-user .cu-header h1 { font-size: 23px; }
+  .bmda-create-user .cu-card { padding: 18px; }
+  .bmda-create-user .cu-form-grid { grid-template-columns: 1fr; gap: 16px; }
+}

@@ -1,0 +1,338 @@
+
+/* ==================================================
+   BMDA - TUBWELLS MANAGEMENT PAGE
+   Theme: Green + White
+   Section-wise CSS
+   ================================================== */
+
+/* SECTION 1: Main Page */
+.bmda-tubewells {
+  --tw-green: #16834a;
+  --tw-green-dark: #116738;
+  --tw-green-light: #e8f5ec;
+  --tw-border: #dbe9df;
+  --tw-text: #20352a;
+  --tw-muted: #64776b;
+
+  min-height: 100vh;
+  padding: 28px;
+  background: #f5faf6;
+  color: var(--tw-text);
+  font-family: "Segoe UI", Arial, sans-serif;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+/* SECTION 2: Header */
+.bmda-tubewells .tw-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.bmda-tubewells .tw-title {
+  margin: 0;
+  color: #145c36;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.bmda-tubewells .tw-subtitle {
+  margin-top: 6px;
+  color: var(--tw-muted);
+  font-size: 14px;
+}
+
+/* SECTION 3: Buttons */
+.bmda-tubewells .tw-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.bmda-tubewells .tw-btn-primary {
+  background: var(--tw-green);
+  color: #ffffff;
+}
+
+.bmda-tubewells .tw-btn-primary:hover {
+  background: var(--tw-green-dark);
+}
+
+.bmda-tubewells .tw-btn-outline {
+  background: #ffffff;
+  color: var(--tw-green-dark);
+  border-color: #b8d9c3;
+}
+
+.bmda-tubewells .tw-btn-outline:hover {
+  background: var(--tw-green-light);
+}
+
+.bmda-tubewells .tw-btn-danger {
+  background: #fff2f2;
+  color: #b42318;
+  border-color: #f4c7c7;
+}
+
+.bmda-tubewells .tw-btn-danger:hover {
+  background: #ffe5e5;
+}
+
+.bmda-tubewells .tw-btn:focus-visible {
+  outline: 3px solid #92d7aa;
+  outline-offset: 2px;
+}
+
+/* SECTION 4: Summary Cards */
+.bmda-tubewells .tw-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.bmda-tubewells .tw-summary-card {
+  background: #ffffff;
+  padding: 20px;
+  border: 1px solid var(--tw-border);
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(20, 80, 40, 0.05);
+}
+
+.bmda-tubewells .tw-summary-label {
+  color: var(--tw-muted);
+  font-size: 14px;
+}
+
+.bmda-tubewells .tw-summary-value {
+  margin-top: 8px;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--tw-green-dark);
+}
+
+/* SECTION 5: Search and Filters */
+.bmda-tubewells .tw-filter-card {
+  padding: 22px;
+  margin-bottom: 24px;
+  background: #ffffff;
+  border: 1px solid var(--tw-border);
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(20, 80, 40, 0.05);
+}
+
+.bmda-tubewells .tw-section-title {
+  margin: 0 0 18px;
+  color: #145c36;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.bmda-tubewells .tw-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.bmda-tubewells .tw-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.bmda-tubewells .tw-field label {
+  color: #355541;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.bmda-tubewells .tw-input,
+.bmda-tubewells .tw-select {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  background: #ffffff;
+  color: var(--tw-text);
+  border: 1px solid #c9dccc;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.bmda-tubewells .tw-input:focus,
+.bmda-tubewells .tw-select:focus {
+  outline: 2px solid #9ad8ae;
+  border-color: var(--tw-green);
+}
+
+/* SECTION 6: Tubewells Table */
+.bmda-tubewells .tw-table-card {
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--tw-border);
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(20, 80, 40, 0.05);
+}
+
+.bmda-tubewells .tw-table-toolbar {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--tw-border);
+  color: var(--tw-muted);
+  font-size: 14px;
+}
+
+.bmda-tubewells .tw-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.bmda-tubewells .tw-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+.bmda-tubewells .tw-table th {
+  padding: 15px;
+  background: #e7f4e9;
+  color: #205c39;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.bmda-tubewells .tw-table td {
+  padding: 14px 15px;
+  border-bottom: 1px solid #edf2ee;
+  vertical-align: middle;
+}
+
+.bmda-tubewells .tw-table tbody tr:hover {
+  background: #f6fbf7;
+}
+
+.bmda-tubewells .tw-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* SECTION 7: Status Badges */
+.bmda-tubewells .tw-status {
+  display: inline-flex;
+  padding: 5px 11px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.bmda-tubewells .tw-status-active {
+  color: #176534;
+  background: #ddf5e4;
+}
+
+.bmda-tubewells .tw-status-inactive {
+  color: #9a3412;
+  background: #ffedd5;
+}
+
+/* SECTION 8: Action Buttons */
+.bmda-tubewells .tw-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.bmda-tubewells .tw-actions .tw-btn {
+  padding: 7px 11px;
+  font-size: 12px;
+}
+
+/* SECTION 9: Empty State */
+.bmda-tubewells .tw-empty {
+  padding: 36px 20px;
+  color: var(--tw-muted);
+  text-align: center;
+}
+
+/* SECTION 10: Responsive Design */
+@media (max-width: 1100px) {
+  .bmda-tubewells .tw-filter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .bmda-tubewells {
+    padding: 14px;
+  }
+
+  .bmda-tubewells .tw-title {
+    font-size: 22px;
+  }
+
+  .bmda-tubewells .tw-summary {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .bmda-tubewells .tw-filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bmda-tubewells .tw-filter-card {
+    padding: 16px;
+  }
+
+  .bmda-tubewells .tw-table th,
+  .bmda-tubewells .tw-table td {
+    padding: 11px;
+  }
+
+  .bmda-tubewells .tw-header {
+    align-items: flex-start;
+  }
+}
+
+/* ============================================================
+   SECTION 11: INDEPENDENT TUBEWELLS TABLE SCROLLING
+   Keep the table inside its own scrollable box.
+   ============================================================ */
+
+.bmda-tubewells .tw-table-scroll {
+  width: 100%;
+  max-height: 420px;
+  overflow-x: auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+/* Keep column headings visible while scrolling the table. */
+.bmda-tubewells .tw-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #e7f4e9;
+}
+
+/* Make the scrolling area comfortable on smaller screens. */
+@media (max-width: 650px) {
+  .bmda-tubewells .tw-table-scroll {
+    max-height: 55dvh;
+  }
+}
+

@@ -1,0 +1,282 @@
+﻿/* SECTION 1: Scoped login-page foundation. */
+.bmda-login-page { box-sizing: border-box; min-height: 100vh; min-height: 100dvh; padding: 28px; background: linear-gradient(135deg,#eaf6ef 0%,#f8fcfa 55%,#e9f5ed 100%); color: #193b2b; display: flex; align-items: center; justify-content: center; font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; }
+.bmda-login-page *, .bmda-login-page *::before, .bmda-login-page *::after { box-sizing: border-box; }
+.bmda-login-shell { width: min(1060px,100%); min-height: 610px; display: grid; grid-template-columns: 1.04fr 1fr; border: 1px solid #d8e9df; border-radius: 24px; overflow: hidden; background: white; box-shadow: 0 24px 75px rgba(28,81,48,.12); }
+/* SECTION 2: Left branding panel. */
+.bmda-login-intro { display: flex; flex-direction: column; justify-content: space-between; gap: 55px; padding: 43px 42px 30px; color: #fff; background: radial-gradient(circle at 85% 20%,rgba(188,238,198,.18),transparent 38%),linear-gradient(145deg,#207447,#115b39 75%,#0b4c30); }
+.bmda-login-brand { display:flex; gap: 13px; align-items:center; }
+.bmda-login-mark { display:flex; align-items:center; justify-content:center; width:58px; height:58px; flex-shrink:0; border-radius:16px; background:rgba(255,255,255,.17); border:1px solid rgba(255,255,255,.25); font-weight:800; font-size:14px; letter-spacing:.4px; }
+.bmda-login-brand-title { font-size:13px; line-height:1.5; font-weight:750; margin:0; }
+.bmda-login-brand-subtitle { font-size:11px; line-height:1.5; opacity:.85; margin:4px 0 0; }
+.bmda-login-eyebrow { font-size:11px; letter-spacing:1.9px; font-weight:800; color:#b9efd0; }
+.bmda-login-intro-content h1 { margin:17px 0 18px; font-size:clamp(28px,3vw,40px); line-height:1.18; letter-spacing:-.9px; font-weight:800; }
+.bmda-login-intro-content > p { margin:0; max-width:360px; font-size:15px; line-height:1.75; color:#dcf1e4; }
+.bmda-login-intro-note { display:flex; align-items:center; gap:10px; width:fit-content; margin-top:36px; padding:12px 15px; border:1px solid rgba(255,255,255,.21); border-radius:12px; background:rgba(255,255,255,.09); font-size:12px; color:#eefbf3; }
+.bmda-login-note-dot { width:8px; height:8px; border-radius:50%; background:#a8efb5; }
+.bmda-login-intro-footer { margin:0; font-size:11px; color:#d4ebdc; }
+/* SECTION 3: Form panel. */
+.bmda-login-form-panel { display:flex; flex-direction:column; justify-content:space-between; padding:70px clamp(28px,5vw,70px) 27px; }
+.bmda-login-form-inner { width:100%; max-width:370px; margin:auto; }
+.bmda-login-mobile-brand { display:none; }
+.bmda-login-form-eyebrow { color:#27814e; font-size:11px; font-weight:800; letter-spacing:1.7px; }
+.bmda-login-form-inner h2 { margin:13px 0 10px; color:#183a2b; font-size:clamp(25px,2.5vw,31px); letter-spacing:-.7px; line-height:1.25; }
+.bmda-login-form-description { margin:0 0 32px; color:#6a7e73; font-size:14px; line-height:1.6; }
+.bmda-login-form { display:flex; flex-direction:column; gap:22px; }
+.bmda-login-field label { display:block; margin-bottom:9px; font-size:13px; font-weight:700; color:#294a37; }
+.bmda-login-field input { width:100%; height:49px; padding:0 15px; border:1px solid #d5e4da; border-radius:10px; outline:0; background:#fbfefc; color:#183b2b; font:inherit; font-size:14px; transition:border-color .2s,box-shadow .2s; }
+.bmda-login-field input::placeholder { color:#8b9e92; }
+.bmda-login-field input:focus { border-color:#26834d; box-shadow:0 0 0 3px rgba(38,131,77,.13); }
+.bmda-login-field input:disabled { opacity:.7; }
+.bmda-login-password-wrap { position:relative; }
+.bmda-login-password-wrap input { padding-right:75px; }
+.bmda-login-password-toggle { position:absolute; right:8px; top:50%; transform:translateY(-50%); padding:7px 9px; border:0; border-radius:7px; background:transparent; color:#247649; font-size:12px; font-weight:700; cursor:pointer; }
+.bmda-login-password-toggle:focus-visible { outline:2px solid #27814e; }
+.bmda-login-submit { display:flex; align-items:center; justify-content:center; gap:14px; width:100%; min-height:49px; margin-top:3px; border:0; border-radius:10px; background:#207c49; color:white; font:inherit; font-size:14px; font-weight:750; cursor:pointer; box-shadow:0 9px 18px rgba(28,110,65,.16); transition:background .2s,transform .2s; }
+.bmda-login-submit:hover:not(:disabled) { background:#17673b; transform:translateY(-1px); }
+.bmda-login-submit:disabled { cursor:wait; opacity:.7; }
+.bmda-login-submit span { font-size:21px; line-height:1; }
+.bmda-login-error { margin:0; padding:11px 13px; border:1px solid #f2b8b5; border-radius:9px; background:#fff3f2; color:#9c2b26; font-size:13px; line-height:1.5; }
+.bmda-login-help { margin:25px 0 0; color:#6a7e73; font-size:12px; line-height:1.6; text-align:center; }
+.bmda-login-form-footer { margin:40px 0 0; text-align:center; color:#879b8c; font-size:11px; }
+/* SECTION 4: Mobile layout. */
+@media (max-width:760px) { .bmda-login-page { padding:15px; align-items:flex-start; } .bmda-login-shell { grid-template-columns:1fr; min-height:auto; } .bmda-login-intro { display:none; } .bmda-login-form-panel { min-height:min(650px,calc(100dvh - 30px)); padding:35px 25px 24px; } .bmda-login-mobile-brand { display:block; margin-bottom:52px; color:#1e7847; font-size:22px; font-weight:850; } .bmda-login-mobile-brand span { display:block; margin-top:3px; color:#698473; font-size:12px; font-weight:550; } .bmda-login-form-inner { max-width:420px; } .bmda-login-form-inner h2 { font-size:27px; } .bmda-login-form-footer { margin-top:45px; } }
+@media (prefers-reduced-motion:reduce) { .bmda-login-page * { transition:none !important; } }
+
+/* Login page font and heading isolation */
+.bmda-login-page,
+.bmda-login-page * {
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.bmda-login-page h1,
+.bmda-login-page h2 {
+  font-family: "Segoe UI", Arial, sans-serif;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+
+/* BMDA Login — Typography Polish */
+.bmda-login-page,
+.bmda-login-page * {
+  font-family: "Segoe UI", Arial, sans-serif;
+  letter-spacing: normal;
+}
+
+.bmda-login-page h1,
+.bmda-login-page h2 {
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-weight: 650;
+  letter-spacing: -0.5px;
+  line-height: 1.22;
+}
+
+.bmda-login-intro-content h1 {
+  font-weight: 650;
+  letter-spacing: -0.8px;
+}
+
+.bmda-login-page p,
+.bmda-login-page label,
+.bmda-login-page input {
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.bmda-login-page label {
+  font-weight: 600;
+}
+
+.bmda-login-page button {
+  font-weight: 600;
+}
+
+
+/* Login visual refinements: supplied BMDA logo and deep-yellow heading. */
+.bmda-login-page .bmda-login-logo {
+  display: block;
+  width: 66px;
+  height: 66px;
+  flex: 0 0 66px;
+  border: 0;
+  border-radius: 50%;
+  background: white;
+  object-fit: contain;
+  padding: 0;
+}
+.bmda-login-page .bmda-login-intro-content h1 {
+  color: #f4d44c;
+  font-weight: 700;
+  letter-spacing: -0.65px;
+  line-height: 1.2;
+}
+.bmda-login-page .bmda-login-intro {
+  position: relative;
+  isolation: isolate;
+  background-image:
+    linear-gradient(145deg, rgba(15,103,61,.95), rgba(10,79,48,.95)),
+    radial-gradient(circle at 75% 75%, rgba(184,222,146,.2), transparent 55%);
+}
+.bmda-login-page .bmda-login-intro::before {
+  content: "DEEP TUBEWELL";
+  position: absolute;
+  right: 14px;
+  bottom: 110px;
+  z-index: -1;
+  transform: rotate(-19deg);
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: rgba(225,255,232,.065);
+  pointer-events: none;
+}
+/* BMDA Login final visual refinements */
+.bmda-login-intro {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.bmda-login-intro::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 25px;
+  width: 72%;
+  height: 68%;
+  background: url("./deep-tubewell-watermark.svg") center / contain no-repeat;
+  opacity: 0.13;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Replace text watermark with illustrated tubewell */
+.bmda-login-intro::after {
+  content: none !important;
+}
+
+.bmda-login-brand-title {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0 !important;
+}
+
+.bmda-login-brand-subtitle {
+  font-size: 13px !important;
+}
+
+.bmda-login-intro-content::before {
+  content: "Welcome Panchagarh";
+  display: block;
+  color: #ffffff;
+  font-size: clamp(20px, 2.5vw, 29px);
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 600px) {
+  .bmda-login-brand-title {
+    font-size: 15px !important;
+  }
+  .bmda-login-intro-content::before {
+    font-size: 21px;
+  }
+}
+
+
+/* BMDA_DTW_REAL_PHOTO_WATERMARK_V1 */
+.bmda-login-intro { position: relative; isolation: isolate; overflow: hidden; }
+.bmda-login-intro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(90deg, rgba(11, 75, 45, .76), rgba(11, 75, 45, .58)), url("./deep-tubewell-photo.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: .43;
+  z-index: -1;
+  pointer-events: none;
+}
+.bmda-login-intro::after { content: none !important; }
+
+/* BMDA LOGIN VIEWPORT FIX */
+@media (min-width: 761px) {
+  .bmda-login-shell {
+    min-height: min(610px, calc(100dvh - 56px));
+  }
+}
+
+
+/* BMDA LOGIN DESKTOP HEIGHT ADJUSTMENT */
+@media (min-width: 761px) {
+  .bmda-login-page {
+    padding: 16px;
+  }
+
+  .bmda-login-shell {
+    min-height: 0;
+    max-height: calc(100dvh - 32px);
+  }
+
+  .bmda-login-intro {
+    gap: 20px;
+    padding: 25px 30px 22px;
+  }
+
+  .bmda-login-form-panel {
+    padding: 30px 38px 20px;
+  }
+
+  .bmda-login-form-description {
+    margin-bottom: 20px;
+  }
+
+  .bmda-login-form {
+    gap: 15px;
+  }
+
+  .bmda-login-help {
+    margin-top: 16px;
+  }
+
+  .bmda-login-form-footer {
+    margin-top: 20px;
+  }
+}
+
+/* BMDA LOGIN ROOT AND VIEWPORT FIX V2 */
+
+/* The root layout should not add extra height to the login page. */
+#root:has(> .bmda-login-page) {
+  width: 100%;
+  max-width: none;
+  min-height: 0;
+  margin: 0;
+  border: 0;
+  display: block;
+  text-align: left;
+}
+
+/* Include padding inside the viewport height. */
+.bmda-login-page {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100dvh;
+}
+
+/* Fit the desktop login card without hiding content. */
+@media (min-width: 761px) {
+  .bmda-login-page {
+    padding: 12px;
+  }
+
+  .bmda-login-shell {
+    min-height: 0;
+    max-height: none;
+  }
+}

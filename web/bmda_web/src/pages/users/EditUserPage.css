@@ -1,0 +1,192 @@
+/* ============================================================
+   BMDA EDIT USER PAGE - GREEN + WHITE
+   All styles are scoped to the Edit User page.
+   ============================================================ */
+
+/* SECTION 1: Page layout */
+.bmda-edit-user {
+  min-height: 100%;
+  padding: 28px;
+  box-sizing: border-box;
+  background: #f5faf6;
+  color: #20352a;
+  text-align: left;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* SECTION 2: Page header */
+.bmda-edit-user .eu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.bmda-edit-user .eu-eyebrow {
+  color: #16834a;
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0 0 7px;
+}
+.bmda-edit-user .eu-header h1 {
+  color: #145c36;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0 0 7px;
+}
+.bmda-edit-user .eu-header p:last-child {
+  color: #64776b;
+  font-size: 14px;
+}
+
+/* SECTION 3: White form card */
+.bmda-edit-user .eu-card {
+  max-width: 960px;
+  padding: 26px;
+  background: #ffffff;
+  border: 1px solid #dbe9df;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(20, 80, 40, 0.05);
+  box-sizing: border-box;
+}
+.bmda-edit-user .eu-card-heading {
+  padding-bottom: 18px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e5efe8;
+}
+.bmda-edit-user .eu-card-heading h2 {
+  color: #145c36;
+  font-size: 19px;
+  font-weight: 700;
+  margin: 0 0 5px;
+}
+.bmda-edit-user .eu-card-heading p {
+  color: #64776b;
+  font-size: 13px;
+}
+
+/* SECTION 4: Form fields */
+.bmda-edit-user .eu-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.bmda-edit-user .eu-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.bmda-edit-user .eu-field label {
+  color: #355541;
+  font-size: 13px;
+  font-weight: 650;
+}
+.bmda-edit-user .eu-field input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  border: 1px solid #c9dccc;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #20352a;
+  font-family: inherit;
+  font-size: 14px;
+}
+.bmda-edit-user .eu-field input:focus-visible {
+  outline: 2px solid #9ad8ae;
+  outline-offset: 1px;
+  border-color: #16834a;
+}
+
+/* SECTION 5: Protected read-only information */
+.bmda-edit-user .eu-field .eu-readonly {
+  background: #f3f6f4;
+  border-color: #e0e9e2;
+  color: #52685a;
+  cursor: default;
+}
+.bmda-edit-user .eu-field input:disabled {
+  background: #f3f6f4;
+  color: #667970;
+  cursor: not-allowed;
+}
+
+/* SECTION 6: Messages */
+.bmda-edit-user .eu-alert,
+.bmda-edit-user .eu-notice {
+  margin: 18px 0;
+  padding: 12px 14px;
+  border-radius: 9px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.bmda-edit-user .eu-alert-error {
+  background: #fff2f2;
+  border: 1px solid #f4c7c7;
+  color: #9b221b;
+}
+.bmda-edit-user .eu-alert-success {
+  background: #e7f7eb;
+  border: 1px solid #b9e4c7;
+  color: #176534;
+}
+.bmda-edit-user .eu-notice {
+  background: #ffffff;
+  border: 1px solid #dbe9df;
+  color: #52685a;
+}
+
+/* SECTION 7: Buttons */
+.bmda-edit-user .eu-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+.bmda-edit-user .eu-button {
+  padding: 11px 18px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.bmda-edit-user .eu-button-primary {
+  background: #16834a;
+  color: #ffffff;
+}
+.bmda-edit-user .eu-button-primary:hover:not(:disabled) {
+  background: #116738;
+}
+.bmda-edit-user .eu-button-outline {
+  background: #ffffff;
+  color: #116738;
+  border-color: #b8d9c3;
+}
+.bmda-edit-user .eu-button-outline:hover:not(:disabled) {
+  background: #e8f5ec;
+}
+.bmda-edit-user .eu-button:focus-visible {
+  outline: 3px solid #92d7aa;
+  outline-offset: 2px;
+}
+.bmda-edit-user .eu-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* SECTION 8: Responsive layout */
+@media (max-width: 760px) {
+  .bmda-edit-user { padding: 16px; }
+  .bmda-edit-user .eu-header h1 { font-size: 23px; }
+  .bmda-edit-user .eu-card { padding: 18px; }
+  .bmda-edit-user .eu-form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}

@@ -1,0 +1,194 @@
+
+/* ============================================================
+   SECTION 1: SUPERVISOR DASHBOARD BASE
+   Green + White responsive design.
+   ============================================================ */
+
+.bmda-supervisor-dashboard {
+  min-height: 100vh;
+  padding: 28px;
+  background: #f0f7f2;
+  color: #193b2b;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   SECTION 2: HEADER AND BMDA BRANDING
+   ============================================================ */
+
+.supervisor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 24px;
+  background: #ffffff;
+  border: 1px solid #d9e9dd;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px rgba(32, 86, 54, 0.06);
+}
+
+.supervisor-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.supervisor-logo-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 70px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #d4e9d8;
+  overflow: hidden;
+}
+
+.supervisor-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.supervisor-brand-name {
+  display: block;
+  color: #207447;
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.supervisor-brand-subtitle {
+  margin: 5px 0 0;
+  color: #526b5a;
+  font-size: 13px;
+}
+
+.supervisor-logout {
+  padding: 11px 19px;
+  border: 1px solid #cce1d0;
+  border-radius: 10px;
+  background: #e8f5eb;
+  color: #195f39;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.supervisor-logout:hover {
+  background: #d5ecdc;
+}
+
+/* ============================================================
+   SECTION 3: WELCOME CARD
+   ============================================================ */
+
+.supervisor-welcome {
+  margin-top: 24px;
+  padding: 32px;
+  border: 1px solid #cfe6d4;
+  border-radius: 18px;
+  background: linear-gradient(120deg, #e3f5e7, #ffffff);
+  box-shadow: 0 5px 20px rgba(32, 86, 54, 0.05);
+}
+
+.supervisor-eyebrow {
+  margin: 0 0 12px;
+  color: #247949;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.supervisor-welcome h1 {
+  margin: 0 0 15px;
+  color: #173c29;
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.3;
+}
+
+.supervisor-office-title {
+  display: inline-block;
+  margin: 0;
+  padding: 10px 15px;
+  border: 1px solid #c7e4ce;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #205e3b;
+  font-size: 15px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* ============================================================
+   SECTION 4: MANAGEMENT WORKSPACE CARD
+   ============================================================ */
+
+.supervisor-info {
+  margin-top: 22px;
+  padding: 28px 32px;
+  background: #ffffff;
+  border: 1px solid #d9e9dd;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px rgba(32, 86, 54, 0.04);
+}
+
+.supervisor-info h2 {
+  margin: 0 0 12px;
+  color: #1c6b40;
+  font-size: 21px;
+}
+
+.supervisor-info p {
+  margin: 0;
+  color: #4e6557;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* ============================================================
+   SECTION 5: RESPONSIVE LAYOUT
+   ============================================================ */
+
+@media (max-width: 640px) {
+  .bmda-supervisor-dashboard {
+    padding: 14px;
+  }
+
+  .supervisor-header {
+    padding: 15px;
+    gap: 12px;
+  }
+
+  .supervisor-brand {
+    gap: 10px;
+  }
+
+  .supervisor-logo-wrap {
+    width: 48px;
+    height: 48px;
+  }
+
+  .supervisor-brand-name {
+    font-size: 16px;
+  }
+
+  .supervisor-brand-subtitle {
+    font-size: 11px;
+  }
+
+  .supervisor-logout {
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+
+  .supervisor-welcome,
+  .supervisor-info {
+    padding: 22px 18px;
+  }
+}

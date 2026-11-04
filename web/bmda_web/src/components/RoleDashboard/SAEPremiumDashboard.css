@@ -1,0 +1,325 @@
+/* BMDA Phase 05 — SAE Operations Workspace theme, v1
+   Activate with class "bmda-sae-theme" on the existing .bmda-role-shell.
+   Scope intentionally excludes AE/Admin dashboards.
+   Purely presentational; no role, API or workflow changes.
+*/
+.bmda-role-shell.bmda-sae-theme {
+  --sae-navy: #153247;
+  --sae-navy-deep: #102739;
+  --sae-emerald: #087f68;
+  --sae-teal: #159a98;
+  --sae-ink: #173344;
+  --sae-muted: #607687;
+  --sae-bg: #f3f6f5;
+  --sae-border: #dfe8e9;
+  --sae-focus: #62d6bf;
+  background: var(--sae-bg);
+  color: var(--sae-ink);
+}
+
+/* Sidebar and wayfinding */
+.bmda-sae-theme .bmda-role-sidebar {
+  background: linear-gradient(168deg, #183a50 0%, #102b3e 58%, #0c2536 100%);
+  border-right: 1px solid #2d5265;
+  box-shadow: 7px 0 28px rgba(14, 42, 57, .07);
+}
+.bmda-sae-theme .bmda-role-brand { border-bottom-color: rgba(226, 250, 249, .15); }
+.bmda-sae-theme .bmda-role-brand span,
+.bmda-sae-theme .bmda-role-side-user span { color: #b1cbd1; }
+.bmda-sae-theme .bmda-role-side-heading { color: #89d9c7; letter-spacing: 1.3px; }
+.bmda-sae-theme .bmda-role-nav-item {
+  color: #dbe9eb;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+.bmda-sae-theme .bmda-role-nav-item:hover {
+  background: rgba(255, 255, 255, .08);
+  color: #fff;
+  border-color: rgba(255, 255, 255, .07);
+}
+.bmda-sae-theme .bmda-role-nav-item.active {
+  background: linear-gradient(105deg, #0c987d, #167f84);
+  color: #fff;
+  border-color: rgba(158, 247, 223, .27);
+  box-shadow: 0 8px 22px rgba(3, 19, 28, .23);
+}
+.bmda-sae-theme .bmda-role-sidebar-bottom { border-top-color: rgba(226, 250, 249, .16); }
+.bmda-sae-theme .bmda-role-signout {
+  border: 1px solid rgba(158, 237, 223, .3);
+  background: rgba(225, 251, 248, .08);
+  color: #eefdfa;
+}
+.bmda-sae-theme .bmda-role-signout:hover { background: rgba(225, 251, 248, .16); }
+
+/* Main workspace */
+.bmda-sae-theme .bmda-role-topbar {
+  background: rgba(255, 255, 255, .97);
+  color: #526d7b;
+  border-bottom-color: var(--sae-border);
+}
+.bmda-sae-theme .bmda-role-topbar-chip {
+  background: #e6f7f0;
+  color: #08715d;
+  border: 1px solid #c2e8db;
+}
+.bmda-sae-theme .bmda-role-content { max-width: 1470px; }
+.bmda-sae-theme .bmda-role-hero {
+  background: linear-gradient(116deg, #17384d 0%, #174b57 61%, #087d73 100%);
+  border: 1px solid rgba(26, 77, 89, .4);
+  border-radius: 23px;
+  box-shadow: 0 16px 34px rgba(16, 50, 69, .13);
+  padding: 32px;
+  isolation: isolate;
+}
+.bmda-sae-theme .bmda-role-eyebrow { color: #8ef1d2; }
+.bmda-sae-theme .bmda-role-hero h1 { color: #fff; font-size: clamp(25px, 2.6vw, 35px); }
+.bmda-sae-theme .bmda-role-hero p:not(.bmda-role-eyebrow) { color: #c8e4e5; }
+.bmda-sae-theme .bmda-role-unit {
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(232,255,252,.2);
+  backdrop-filter: blur(7px);
+  color: #fff;
+  border-radius: 15px;
+}
+.bmda-sae-theme .bmda-role-unit span { color: #c8e5e4; }
+.bmda-sae-theme .bmda-role-unit strong { color: #fff; }
+.bmda-sae-theme .bmda-role-section-heading h2 { color: var(--sae-navy); font-size: 21px; }
+.bmda-sae-theme .bmda-role-section-heading p { color: var(--sae-muted); }
+.bmda-sae-theme .bmda-role-panel {
+  border-color: var(--sae-border);
+  border-radius: 19px;
+  box-shadow: 0 6px 24px rgba(22, 57, 72, .045);
+}
+
+/* Premium summary cards — existing data/state remains untouched */
+.bmda-sae-theme .bmda-role-cards-premium { gap: 18px; }
+.bmda-sae-theme .bmda-role-premium-card {
+  min-height: 232px;
+  padding: 22px 21px;
+  border: 1px solid #e0e9ed;
+  border-radius: 21px;
+  background: #fff;
+  box-shadow: 0 10px 28px rgba(20, 54, 70, .065);
+  transition: transform 170ms ease, box-shadow 170ms ease, border-color 170ms ease;
+}
+.bmda-sae-theme .bmda-role-premium-card::before {
+  left: 0; right: 0; top: 0; height: 5px;
+  border-radius: 21px 21px 0 0;
+  background: linear-gradient(90deg, #087f68, #16b1a5);
+}
+.bmda-sae-theme .bmda-role-premium-card:nth-child(2)::before { background: linear-gradient(90deg, #2566a0, #75b4eb); }
+.bmda-sae-theme .bmda-role-premium-card:nth-child(3)::before { background: linear-gradient(90deg, #c28e35, #efc47b); }
+.bmda-sae-theme .bmda-role-premium-card:nth-child(4)::before { background: linear-gradient(90deg, #b95d62, #eba0a1); }
+.bmda-sae-theme .bmda-role-premium-card:hover {
+  transform: translateY(-3px);
+  border-color: #b4d5d7;
+  box-shadow: 0 16px 38px rgba(20, 54, 70, .12);
+}
+.bmda-sae-theme .bmda-role-premium-icon { background: #e1f6ef; color: #087f68; border-radius: 14px; }
+.bmda-sae-theme .bmda-role-premium-card:nth-child(2) .bmda-role-premium-icon { background: #e6f1fc; color: #2566a0; }
+.bmda-sae-theme .bmda-role-premium-card:nth-child(3) .bmda-role-premium-icon { background: #fff4df; color: #a37224; }
+.bmda-sae-theme .bmda-role-premium-card:nth-child(4) .bmda-role-premium-icon { background: #fcebee; color: #ad4d5a; }
+.bmda-sae-theme .bmda-role-premium-indicator {
+  background: #f0f5f6;
+  border-color: #dde7e9;
+  color: #637987;
+}
+.bmda-sae-theme .bmda-role-premium-number { color: #163a4d; font-size: clamp(28px, 2.7vw, 39px); }
+.bmda-sae-theme .bmda-role-premium-title { color: #314e5f; font-size: 14px; }
+.bmda-sae-theme .bmda-role-premium-description { color: #6e8390; font-size: 12px; }
+
+/* Field panels and compact working surfaces */
+.bmda-sae-theme .bmda-role-stat {
+  border: 1px solid #e0e9ed;
+  background: linear-gradient(180deg, #fff, #fafcfc);
+  border-radius: 15px;
+}
+.bmda-sae-theme .bmda-role-stat > span:not(.bmda-role-stat-icon) { color: #667e8a; }
+.bmda-sae-theme .bmda-role-stat strong { color: #126f68; }
+.bmda-sae-theme .bmda-role-task-list li {
+  background: #f2f9f8;
+  color: #29495a;
+  border: 1px solid #e2edec;
+}
+.bmda-sae-theme .bmda-role-task-list li span { color: #09937d; }
+.bmda-sae-theme .bmda-role-notice {
+  background: #f1f9f7;
+  border-left-color: #0b9a84;
+  color: #224659;
+}
+.bmda-sae-theme .bmda-role-notice p { color: #617d88; }
+.bmda-sae-theme .bmda-role-profile div { background: #f4f8f8; }
+.bmda-sae-theme .bmda-role-profile dt { color: #748995; }
+.bmda-sae-theme .bmda-role-profile dd { color: #204657; }
+.bmda-sae-theme .bmda-role-footer { color: #80939e; }
+
+/* Responsive improvements are SAE-only */
+@media (max-width: 1050px) {
+  .bmda-sae-theme .bmda-role-cards-premium { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .bmda-sae-theme .bmda-role-hero { padding: 24px; }
+  .bmda-sae-theme .bmda-role-mobile-toggle {
+    background: #fff;
+    border-color: #c8dfdd;
+    color: #164f5a;
+    box-shadow: 0 3px 11px rgba(15, 54, 72, .11);
+  }
+  .bmda-sae-theme .bmda-role-overlay { background: rgba(10, 31, 44, .62); }
+  .bmda-sae-theme .bmda-role-main { margin-left: 0; }
+}
+@media (max-width: 430px) {
+  .bmda-sae-theme .bmda-role-cards-premium { grid-template-columns: 1fr; }
+  .bmda-sae-theme .bmda-role-premium-card { min-height: 210px; padding: 20px; }
+  .bmda-sae-theme .bmda-role-hero { padding: 22px 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bmda-sae-theme .bmda-role-nav-item,
+  .bmda-sae-theme .bmda-role-premium-card { transition: none; }
+  .bmda-sae-theme .bmda-role-premium-card:hover { transform: none; }
+}
+.bmda-sae-theme .bmda-role-nav-item:focus-visible,
+.bmda-sae-theme .bmda-role-signout:focus-visible,
+.bmda-sae-theme .bmda-role-mobile-toggle:focus-visible {
+  outline: 3px solid var(--sae-focus);
+  outline-offset: 2px;
+}
+
+/* Phase 05 — SAE Field Operations Quick Actions */
+.bmda-sae-theme .bmda-sae-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.bmda-sae-theme .bmda-sae-quick-action {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #dce8e7;
+  border-radius: 15px;
+  background: #ffffff;
+  color: #153247;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.bmda-sae-theme .bmda-sae-quick-action:hover {
+  border-color: #159a98;
+  box-shadow: 0 10px 22px rgba(21, 50, 71, .09);
+  transform: translateY(-2px);
+}
+.bmda-sae-theme .bmda-sae-quick-action:focus-visible {
+  outline: 3px solid #159a98;
+  outline-offset: 3px;
+}
+.bmda-sae-theme .bmda-sae-quick-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 48px;
+  height: 48px;
+  border-radius: 13px;
+  background: #e6f6f1;
+  color: #087f68;
+  font-size: 25px;
+  font-weight: 800;
+}
+.bmda-sae-theme .bmda-sae-quick-action:nth-child(2) .bmda-sae-quick-icon {
+  background: #fff3dc;
+  color: #b67917;
+}
+.bmda-sae-theme .bmda-sae-quick-action:nth-child(3) .bmda-sae-quick-icon {
+  background: #e2f7f6;
+  color: #138b89;
+}
+.bmda-sae-theme .bmda-sae-quick-action:nth-child(4) .bmda-sae-quick-icon {
+  background: #edf1ff;
+  color: #5475b6;
+}
+.bmda-sae-theme .bmda-sae-quick-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  gap: 5px;
+}
+.bmda-sae-theme .bmda-sae-quick-copy strong {
+  font-size: 15px;
+  color: #153247;
+}
+.bmda-sae-theme .bmda-sae-quick-copy small {
+  color: #6d8190;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.bmda-sae-theme .bmda-sae-quick-chevron {
+  color: #159a98;
+  font-size: 27px;
+}
+@media (max-width: 760px) {
+  .bmda-sae-theme .bmda-sae-quick-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bmda-sae-theme .bmda-sae-quick-action {
+    transition: none;
+  }
+  .bmda-sae-theme .bmda-sae-quick-action:hover {
+    transform: none;
+  }
+}
+
+/* Phase 05: top-tab workspace, scoped exclusively to SAE. */
+.bmda-sae-theme .bmda-sae-top-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  max-width: 100%;
+  border: 1px solid #dbe7e7;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(21,50,71,.055);
+  scrollbar-width: thin;
+}
+.bmda-sae-theme .bmda-sae-tab {
+  flex: 0 0 auto;
+  padding: 12px 17px;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: #455e6d;
+  font: 700 13px Segoe UI, Arial, sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.bmda-sae-theme .bmda-sae-tab:hover { background: #edf7f4; color: #087f68; }
+.bmda-sae-theme .bmda-sae-tab.is-active {
+  background: #087f68;
+  color: #fff;
+  box-shadow: 0 3px 9px rgba(8,127,104,.2);
+}
+.bmda-sae-theme .bmda-sae-tab:focus-visible { outline: 3px solid #16a6a0; outline-offset: 2px; }
+/* Preserve the authenticated navigation's existing sections, only change visibility. */
+.bmda-sae-theme:not([data-sae-view="overview"]) .bmda-role-hero,
+.bmda-sae-theme:not([data-sae-view="overview"]) [aria-label="Workspace status"],
+.bmda-sae-theme:not([data-sae-view="overview"]) .bmda-sae-quick-actions,
+.bmda-sae-theme:not([data-sae-view="responsibilities"]) #bmda-role-responsibilities,
+.bmda-sae-theme:not([data-sae-view="tubewells"]) #bmda-role-tubewells,
+.bmda-sae-theme:not([data-sae-view="workflow"]) #bmda-role-workflow,
+.bmda-sae-theme:not([data-sae-view="approvals"]) #bmda-role-approvals,
+.bmda-sae-theme:not([data-sae-view="account"]) #bmda-role-account {
+  display: none;
+}
+@media (max-width: 760px) {
+  .bmda-sae-theme .bmda-sae-top-tabs { border-radius: 12px; margin-bottom: 14px; }
+  .bmda-sae-theme .bmda-sae-tab { padding: 11px 14px; font-size: 12px; }
+}

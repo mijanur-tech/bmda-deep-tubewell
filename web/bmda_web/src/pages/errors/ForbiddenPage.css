@@ -1,0 +1,153 @@
+﻿.bmda-forbidden-page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #f5faf6;
+  color: #20352a;
+  font-family: inherit, system-ui, sans-serif;
+}
+
+.bmda-forbidden-page *,
+.bmda-forbidden-page *::before,
+.bmda-forbidden-page *::after {
+  box-sizing: border-box;
+}
+
+.bmda-forbidden-card {
+  width: 100%;
+  max-width: 470px;
+  padding: 48px 36px 32px;
+  background: #ffffff;
+  border: 1px solid #dbe9df;
+  border-radius: 22px;
+  box-shadow: 0 16px 48px rgba(17, 103, 56, 0.07);
+  text-align: center;
+}
+
+.bmda-forbidden-icon {
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e9f6ed;
+  color: #16834a;
+  border-radius: 22px;
+}
+
+.bmda-forbidden-code {
+  display: inline-block;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: #e9f6ed;
+  color: #116738;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.bmda-forbidden-card h1 {
+  margin: 20px 0 12px;
+  color: #20352a;
+  font-size: clamp(26px, 5vw, 34px);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.bmda-forbidden-description {
+  margin: 0 0 10px;
+  color: #20352a;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.bmda-forbidden-help {
+  margin: 0 0 30px;
+  color: #627568;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.bmda-forbidden-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 160px;
+  min-height: 46px;
+  padding: 12px 24px;
+  border: 1px solid #16834a;
+  border-radius: 10px;
+  background: #16834a;
+  color: #ffffff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.bmda-forbidden-back:hover {
+  background: #116738;
+  transform: translateY(-1px);
+}
+
+.bmda-forbidden-back:focus-visible {
+  outline: 3px solid #86cba3;
+  outline-offset: 3px;
+}
+
+.bmda-forbidden-footer {
+  margin-top: 36px;
+  padding-top: 22px;
+  border-top: 1px solid #e9f0eb;
+  color: #627568;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 480px) {
+  .bmda-forbidden-page {
+    padding: 16px;
+  }
+
+  .bmda-forbidden-card {
+    padding: 36px 22px 26px;
+    border-radius: 18px;
+  }
+
+  .bmda-forbidden-icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 20px;
+    border-radius: 18px;
+  }
+
+  .bmda-forbidden-description {
+    font-size: 15px;
+  }
+
+  .bmda-forbidden-back {
+    width: 100%;
+  }
+
+  .bmda-forbidden-footer {
+    margin-top: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bmda-forbidden-back {
+    transition: none;
+  }
+
+  .bmda-forbidden-back:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,168 @@
+
+/* ============================================================
+   BMDA ADMIN SIDEBAR - GREEN + WHITE
+   Scoped styles for existing navigation and Panchagarh branding.
+   ============================================================ */
+
+/* SECTION 1: Main navigation panel */
+.bmda-sidebar {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 24px;
+  width: 250px;
+  min-height: 100vh;
+  padding: 26px 16px;
+  background: #176b45;
+  color: #ffffff;
+  text-align: left;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* SECTION 2: Brand with original supplied logo */
+.bmda-sidebar-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 4px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  text-align: center;
+}
+
+.bmda-sidebar-logo-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 92px;
+  height: 92px;
+  padding: 6px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #ffffff;
+  margin-bottom: 5px;
+}
+
+.bmda-sidebar-logo {
+  display: block;
+  width: 84%;
+  height: 84%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.bmda-sidebar-brand strong {
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 1.35;
+  letter-spacing: 0.25px;
+  overflow-wrap: anywhere;
+}
+
+.bmda-sidebar-brand span {
+  color: #def5e7;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* SECTION 3: Navigation links */
+.bmda-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bmda-sidebar-link {
+  display: block;
+  padding: 13px 14px;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.bmda-sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.bmda-sidebar-link-active,
+.bmda-sidebar-link-active:hover {
+  background: #ffffff;
+  color: #176b45;
+}
+
+.bmda-sidebar-link:focus-visible,
+.bmda-sidebar-logout:focus-visible,
+.bmda-sidebar-mobile-toggle:focus-visible {
+  outline: 3px solid #a8e5bc;
+  outline-offset: 2px;
+}
+
+/* SECTION 4: Logout */
+.bmda-sidebar-logout {
+  margin-top: auto;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 10px;
+  background: transparent;
+  color: #ffffff;
+  text-align: left;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.bmda-sidebar-logout:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* SECTION 5: Mobile toggle hidden on desktop */
+.bmda-sidebar-mobile-toggle {
+  display: none;
+}
+
+/* SECTION 6: Responsive menu - matched with AdminLayout */
+@media (max-width: 800px) {
+  .bmda-sidebar-mobile-toggle {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    border: none;
+    background: #176b45;
+    color: #ffffff;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .bmda-sidebar {
+    display: none;
+    width: 100%;
+    min-height: 0;
+    padding: 16px;
+  }
+
+  .bmda-sidebar-open {
+    display: flex;
+  }
+
+  .bmda-sidebar-logout {
+    margin-top: 10px;
+  }
+}
+
+/* SECTION 7: Admin office identity */
+.bmda-sidebar-brand .bmda-sidebar-office {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
+}

@@ -1,0 +1,37 @@
+/* ============================================================
+   BMDA ADMIN DASHBOARD: SIDEBAR LAYOUT
+   Separate layout CSS; keeps AdminDashboard.css unchanged.
+   ============================================================ */
+
+/* SECTION 1: Desktop layout */
+.bmda-admin-layout {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  align-items: stretch;
+  min-height: 100vh;
+  width: 100%;
+  background: #f5faf6;
+  text-align: left;
+}
+
+.bmda-admin-layout-sidebar {
+  min-width: 0;
+  background: #176b45;
+}
+
+.bmda-admin-layout-content {
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* SECTION 2: Tablet and mobile layout */
+@media (max-width: 800px) {
+  .bmda-admin-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .bmda-admin-layout-sidebar {
+    background: transparent;
+  }
+}

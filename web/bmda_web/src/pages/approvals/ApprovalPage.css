@@ -1,0 +1,257 @@
+﻿/* SECTION 1: Page foundation */
+.bmda-approval-page {
+  min-height: 100vh;
+  padding: clamp(18px, 3vw, 36px);
+  background: #f4faf5;
+  color: #173b2b;
+  font-family: inherit;
+}
+
+.bmda-approval-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.bmda-approval-eyebrow {
+  color: #347b52;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+
+.bmda-approval-header h1 {
+  margin: 8px 0;
+  font-size: clamp(23px, 3vw, 32px);
+}
+
+.bmda-approval-header p {
+  max-width: 680px;
+  line-height: 1.6;
+  color: #52675a;
+}
+
+/* SECTION 2: Cards and request information */
+.bmda-approval-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+  gap: 18px;
+}
+
+.bmda-approval-card,
+.bmda-approval-empty {
+  background: #fff;
+  border: 1px solid #dbe9dd;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 5px 18px rgba(23, 59, 43, .05);
+}
+
+.bmda-approval-card-top,
+.bmda-approval-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.bmda-approval-card h2 {
+  font-size: 20px;
+  margin: 8px 0 16px;
+}
+
+.bmda-approval-request-id {
+  color: #537260;
+  font-size: 13px;
+}
+
+.bmda-approval-status {
+  background: #e4f5e9;
+  color: #17603b;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.bmda-approval-details {
+  display: grid;
+  gap: 12px;
+  margin: 0 0 18px;
+}
+
+.bmda-approval-details div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bmda-approval-details dt { color: #627669; }
+.bmda-approval-details dd { margin: 0; font-weight: 600; text-align: right; }
+
+.bmda-approval-reason {
+  background: #f3f9f4;
+  border-radius: 10px;
+  padding: 13px;
+  margin-bottom: 15px;
+  overflow-wrap: anywhere;
+}
+
+.bmda-approval-reason p { margin: 7px 0 0; line-height: 1.5; }
+
+.bmda-approval-label {
+  display: block;
+  margin: 12px 0 8px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.bmda-approval-card textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #bfd5c4;
+  border-radius: 9px;
+  padding: 11px;
+  font: inherit;
+  resize: vertical;
+  color: #173b2b;
+  background: #fff;
+}
+
+/* SECTION 3: Buttons and feedback */
+.bmda-approval-page button {
+  border: 1px solid #bcd4c3;
+  border-radius: 9px;
+  padding: 10px 15px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  color: #245239;
+  background: #fff;
+}
+
+.bmda-approval-page button:disabled { opacity: .55; cursor: not-allowed; }
+.bmda-approval-actions { justify-content: flex-end; margin-top: 16px; }
+
+.bmda-approval-page .bmda-approval-approve {
+  background: #197347;
+  border-color: #197347;
+  color: #fff;
+}
+
+.bmda-approval-page .bmda-approval-reject {
+  background: #fff1f0;
+  border-color: #f0c5c1;
+  color: #a32d25;
+}
+
+.bmda-approval-success,
+.bmda-approval-error {
+  padding: 13px 16px;
+  margin-bottom: 18px;
+  border-radius: 10px;
+}
+
+.bmda-approval-success { background: #e1f4e7; color: #165c35; }
+.bmda-approval-error { background: #fff0ee; color: #9c2d26; }
+
+/* SECTION 4: Confirmation dialog */
+.bmda-approval-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 35, 22, .55);
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.bmda-approval-dialog {
+  width: min(100%, 440px);
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 70px rgba(0, 0, 0, .2);
+}
+
+.bmda-approval-dialog h2 { margin-top: 0; font-size: 21px; }
+.bmda-approval-dialog p { line-height: 1.6; }
+
+@media (max-width: 600px) {
+  .bmda-approval-header { flex-direction: column; }
+  .bmda-approval-card { padding: 17px; }
+  .bmda-approval-actions { flex-wrap: wrap; }
+}
+
+/* SECTION 5: INLINE DASHBOARD DESIGN */
+/* These styles apply only when ApprovalPage is inside RoleDashboard. */
+
+.bmda-role-inline-approvals .bmda-approval-page {
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+  color: #173b2b;
+}
+
+.bmda-role-inline-approvals .bmda-approval-page > div:first-child > button {
+  background: #197347;
+  border-color: #197347;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 10px 16px;
+  border-radius: 9px;
+}
+
+.bmda-role-inline-approvals .bmda-approval-page > div:first-child > button:hover:not(:disabled) {
+  background: #115d38;
+  border-color: #115d38;
+}
+
+.bmda-role-inline-approvals .bmda-approval-list {
+  gap: 14px;
+}
+
+.bmda-role-inline-approvals .bmda-approval-card {
+  padding: 19px;
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+.bmda-role-inline-approvals .bmda-approval-empty {
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: none;
+  background: #f5faf6;
+  color: #526f5b;
+  text-align: center;
+}
+
+.bmda-role-inline-approvals .bmda-approval-card h2 {
+  color: #17643c;
+  font-size: 19px;
+  margin-bottom: 10px;
+}
+
+.bmda-role-inline-approvals .bmda-approval-details {
+  font-size: 13px;
+}
+
+.bmda-role-inline-approvals .bmda-approval-card textarea:focus-visible,
+.bmda-role-inline-approvals .bmda-approval-page button:focus-visible {
+  outline: 3px solid #7ac59a;
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .bmda-role-inline-approvals .bmda-approval-card {
+    padding: 15px;
+  }
+
+  .bmda-role-inline-approvals .bmda-approval-details div {
+    flex-wrap: wrap;
+  }
+}

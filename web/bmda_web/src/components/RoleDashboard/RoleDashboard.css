@@ -1,0 +1,233 @@
+/* Shared AE / Supervisor dashboard only; no Admin styles modified. */
+.bmda-role-shell{display:flex;min-height:100vh;width:100%;max-width:none;text-align:left;background:#f4f9f5;color:#183c2b;font-family:Segoe UI,Arial,sans-serif;box-sizing:border-box}
+.bmda-role-shell *{box-sizing:border-box}.bmda-role-sidebar{width:266px;flex:0 0 266px;position:fixed;top:0;left:0;height:100dvh;overflow-y:auto;display:flex;flex-direction:column;background:#00853E;border-right:1px solid #006b00;padding:24px 15px;z-index:30}
+.bmda-role-brand{display:flex;align-items:center;gap:11px;padding:5px 7px 22px;border-bottom:1px solid #47a447}.bmda-role-brand img{width:45px;height:45px;object-fit:contain}.bmda-role-brand strong{display:block;font-size:13px;color:#fff}.bmda-role-brand span{display:block;font-size:10px;color:#e6f5e6;margin-top:3px}.bmda-role-side-heading{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#ffdf70;margin:24px 10px 12px}
+.bmda-role-sidebar nav{display:grid;gap:6px}.bmda-role-nav-item{display:flex;align-items:center;gap:12px;text-align:left;padding:13px 14px;border:0;border-radius:10px;background:transparent;color:#fff;font:600 14px Segoe UI,Arial,sans-serif;cursor:pointer}.bmda-role-nav-item span{font-size:19px;width:21px;text-align:center}.bmda-role-nav-item:hover{background:#006b00;color:#fff}.bmda-role-nav-item.active{background:#ffd84d;color:#174b32}.bmda-role-nav-item:focus-visible,.bmda-role-signout:focus-visible,.bmda-role-mobile-toggle:focus-visible{outline:3px solid #6ab987;outline-offset:2px}
+.bmda-role-sidebar-bottom{margin-top:auto;border-top:1px solid #47a447;padding:18px 8px 0}.bmda-role-side-user strong{display:block;font-size:13px;overflow-wrap:anywhere;color:#fff}.bmda-role-side-user span{display:block;font-size:12px;color:#e6f5e6;margin-top:4px}.bmda-role-signout{width:100%;margin-top:16px;padding:11px;border:1px solid #ffd84d;border-radius:9px;background:#fff;color:#006b00;font-weight:700;cursor:pointer;text-align:left}
+.bmda-role-main{flex:1;min-width:0;margin-left:266px}.bmda-role-topbar{height:70px;padding:0 32px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid #dcece0;font-size:13px;font-weight:600;color:#5b7462}.bmda-role-topbar-chip{background:#e5f4e9;color:#176d3e;border-radius:30px;padding:7px 12px}.bmda-role-content{max-width:1300px;margin:0 auto;padding:30px 32px}.bmda-role-hero{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:30px;border:1px solid #cfe7d6;border-radius:19px;background:linear-gradient(110deg,#e1f4e6,#fff);box-shadow:0 7px 25px #183c2b0a}.bmda-role-eyebrow{color:#21814c;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.6px}.bmda-role-hero h1{color:#173e28;font-size:clamp(23px,3vw,32px);line-height:1.25;margin:10px 0;overflow-wrap:anywhere;font-weight:750}.bmda-role-hero p:not(.bmda-role-eyebrow){color:#5a7162;font-size:14px}.bmda-role-unit{min-width:210px;max-width:290px;background:#fff;border:1px solid #d3e8d8;border-radius:12px;padding:16px}.bmda-role-unit span{display:block;color:#748a7b;font-size:12px}.bmda-role-unit strong{display:block;margin-top:7px;font-size:15px;overflow-wrap:anywhere}
+.bmda-role-section{margin-top:26px;scroll-margin-top:20px}.bmda-role-section-heading h2{font-size:20px;font-weight:750;margin:0 0 8px;color:#204f34}.bmda-role-section-heading p{color:#6b8071;font-size:13px;line-height:1.6;margin:0 0 17px}.bmda-role-cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.bmda-role-stat{background:#fff;border:1px solid #dcece0;border-radius:15px;padding:19px;display:flex;flex-direction:column;gap:8px;min-width:0}.bmda-role-stat-icon{background:#e5f4e9;color:#21814c;width:37px;height:37px;display:grid;place-items:center;border-radius:10px;font-size:20px}.bmda-role-stat>span:not(.bmda-role-stat-icon){font-size:13px;color:#526f5b}.bmda-role-stat strong{font-size:17px;color:#2c6947;overflow-wrap:anywhere}.bmda-role-stat small{font-size:11px;color:#8a998e}.bmda-role-panel{background:#fff;border:1px solid #dcece0;border-radius:16px;padding:24px}.bmda-role-task-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.bmda-role-task-list li{display:flex;align-items:flex-start;gap:10px;padding:13px;border-radius:10px;background:#f4faf5;font-size:13px;line-height:1.5}.bmda-role-task-list li span{color:#24864e;font-weight:800}.bmda-role-notice{background:#f4faf5;border-left:4px solid #4b9b69;padding:17px;border-radius:9px;font-size:14px}.bmda-role-notice p{color:#617966;margin-top:7px;line-height:1.6}.bmda-role-profile{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0}.bmda-role-profile div{background:#f4faf5;padding:14px;border-radius:10px}.bmda-role-profile dt{font-size:12px;color:#738978}.bmda-role-profile dd{margin:7px 0 0;font-weight:700;font-size:14px;overflow-wrap:anywhere}.bmda-role-footer{padding:26px 0;text-align:center;font-size:12px;color:#8c9c90}.bmda-role-mobile-toggle,.bmda-role-overlay{display:none}.bmda-role-state{padding:40px;color:#244f37}
+@media(max-width:1050px){.bmda-role-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.bmda-role-content{padding:24px}}
+@media(max-width:760px){.bmda-role-mobile-toggle{display:block;position:fixed;top:12px;left:12px;z-index:50;border:1px solid #cbe4d1;background:#fff;color:#176d3e;border-radius:9px;padding:10px 12px;font-weight:700;cursor:pointer}.bmda-role-sidebar{position:fixed;left:0;top:0;transform:translateX(-105%);transition:transform .2s ease;box-shadow:10px 0 25px #102d1a20}.bmda-role-sidebar.is-open{transform:translateX(0)}.bmda-role-overlay{display:block;position:fixed;inset:0;background:#0b281c80;z-index:20;border:0}.bmda-role-mobile-toggle{z-index:40}.bmda-role-sidebar.is-open{z-index:35}.bmda-role-topbar{padding:0 16px 0 175px;height:64px;font-size:11px}.bmda-role-topbar-chip{display:none}.bmda-role-hero{flex-direction:column;align-items:stretch;padding:22px}.bmda-role-unit{max-width:none}.bmda-role-task-list,.bmda-role-profile{grid-template-columns:1fr}.bmda-role-content{padding:16px}.bmda-role-panel{padding:18px}}
+@media(max-width:430px){.bmda-role-cards{grid-template-columns:1fr}.bmda-role-topbar{font-size:0}.bmda-role-topbar:after{content:"BMDA Workspace";font-size:12px}}
+
+/* SIDEBAR VIEWPORT FIX — MOBILE */
+@media (max-width:760px) {
+  .bmda-role-main {
+    margin-left: 0;
+  }
+}
+
+/* AE Reading Warnings: scoped breakdown layout */
+.bmda-role-warning-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.bmda-role-warning-details > div {
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid #dcece0;
+  border-radius: 9px;
+  background: #f4faf5;
+}
+
+.bmda-role-warning-details span {
+  display: block;
+  color: #617966;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.bmda-role-warning-details strong {
+  display: block;
+  margin-top: 4px;
+  color: #176d3e;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+/* ============================================================
+   BMDA PREMIUM OVERVIEW V1
+   Scoped to RoleDashboard overview cards.
+   ============================================================ */
+
+.bmda-role-cards-premium {
+  align-items: stretch;
+  gap: 16px;
+}
+
+.bmda-role-premium-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 250px;
+  padding: 22px;
+  overflow: hidden;
+  border: 1px solid #dcece0;
+  border-radius: 18px;
+  background: linear-gradient(155deg, #ffffff 65%, #f5fbf6 100%);
+  box-shadow: 0 5px 22px rgba(22, 80, 43, 0.045);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.bmda-role-premium-card:hover {
+  border-color: #a9d7b7;
+  box-shadow: 0 10px 28px rgba(22, 80, 43, 0.09);
+}
+
+.bmda-role-premium-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 22px;
+  right: 22px;
+  height: 3px;
+  border-radius: 0 0 5px 5px;
+  background: linear-gradient(90deg, #2d965b, #a4dfb5);
+}
+
+.bmda-role-premium-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.bmda-role-premium-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: #e8f6ec;
+  color: #21814c;
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.bmda-role-premium-indicator {
+  padding: 5px 9px;
+  border: 1px solid #d7eade;
+  border-radius: 20px;
+  background: #f3faf5;
+  color: #4a8060;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+}
+
+.bmda-role-premium-number {
+  color: #164c30;
+  font-size: clamp(28px, 3vw, 36px);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+
+.bmda-role-premium-title {
+  margin: 8px 0 0;
+  color: #274d35;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+.bmda-role-premium-description {
+  margin: auto 0 0;
+  padding-top: 18px;
+  color: #748d7a;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.bmda-role-premium-personnel {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: auto;
+  padding-top: 15px;
+  color: #607c69;
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+
+.bmda-role-premium-personnel strong {
+  color: #176d3e;
+  font-weight: 800;
+}
+
+.bmda-role-premium-reading {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid #e3eee6;
+}
+
+.bmda-role-premium-reading > div {
+  min-width: 0;
+}
+
+.bmda-role-premium-reading span {
+  display: block;
+  color: #718a78;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.bmda-role-premium-reading strong {
+  display: block;
+  margin-top: 5px;
+  color: #176d3e;
+  font-size: 19px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.bmda-role-premium-reading p {
+  grid-column: 1 / -1;
+  margin: 3px 0 0;
+  color: #819687;
+  font-size: 10px;
+}
+
+@media (max-width: 1050px) {
+  .bmda-role-cards-premium {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 430px) {
+  .bmda-role-cards-premium {
+    grid-template-columns: 1fr;
+  }
+
+  .bmda-role-premium-card {
+    min-height: 220px;
+    padding: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bmda-role-premium-card {
+    transition: none;
+  }
+}
+
+/* ============================================================
+   AE Meter Replacement: Energy / Prepaid selector
+   ============================================================ */
+.bmda-meter-type-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 18px}
+.bmda-meter-type-tabs button{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;padding:16px;border:1px solid #cfe3d3;border-radius:12px;background:#f8fcf9;color:#23543a;font:700 14px Segoe UI,Arial,sans-serif;cursor:pointer;text-align:left}
+.bmda-meter-type-tabs button.is-active{background:#e3f5e8;border-color:#168447;color:#126333;box-shadow:inset 0 0 0 1px #168447}
+.bmda-meter-type-tabs button:focus-visible{outline:3px solid #8bcfa3;outline-offset:2px}
+.bmda-meter-type-tabs button span{display:inline-flex;align-items:center;justify-content:center;min-width:30px;padding:5px 9px;border-radius:999px;background:#fff;border:1px solid #cfe3d3;font-variant-numeric:tabular-nums}
+.bmda-meter-type-warning{padding:13px 15px;margin:0 0 16px;border:1px solid #eac77d;border-radius:10px;background:#fff9e9;color:#795313;font-size:13px;line-height:1.6}
+@media(max-width:430px){.bmda-meter-type-tabs{gap:8px}.bmda-meter-type-tabs button{padding:12px 10px;font-size:12px}}

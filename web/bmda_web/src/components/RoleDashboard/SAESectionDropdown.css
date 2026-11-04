@@ -1,0 +1,41 @@
+/* Phase 05 - Step 30.12: SAE-only section navigation. */
+.bmda-sae-theme [hidden] { display: none !important; }
+.bmda-sae-theme .bmda-sae-section-picker {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 18px; flex-wrap: wrap; margin: 16px 0 22px;
+  padding: 18px 20px; border: 1px solid #cbded7; border-radius: 16px;
+  background: linear-gradient(120deg, #f5faf7, #e8f6f2);
+  box-shadow: 0 5px 18px rgba(16, 51, 48, .055);
+}
+.bmda-sae-theme .bmda-sae-section-picker-copy {
+  display: flex; flex-direction: column; gap: 4px; flex: 1 1 220px;
+}
+.bmda-sae-theme .bmda-sae-section-picker-eyebrow {
+  color: #317667; font-size: 11px; font-weight: 800;
+  letter-spacing: .11em;
+}
+.bmda-sae-theme .bmda-sae-section-picker-copy strong {
+  color: #193e41; font-size: 18px; font-weight: 800;
+}
+.bmda-sae-theme .bmda-sae-section-picker-copy small {
+  color: #4a6c68; font-size: 13px; line-height: 1.55;
+}
+.bmda-sae-theme .bmda-sae-section-select-label {
+  display: flex; flex-direction: column; gap: 7px;
+  flex: 1 1 260px; max-width: 420px;
+  color: #305e59; font-size: 12px; font-weight: 700;
+}
+.bmda-sae-theme .bmda-sae-section-select-label select {
+  display: block; width: 100%; min-height: 46px;
+  border: 1px solid #a6ccc2; border-radius: 11px;
+  background: #fff; color: #163f41; padding: 11px 12px;
+  font: inherit; font-size: 14px; font-weight: 650;
+  cursor: pointer;
+}
+.bmda-sae-theme .bmda-sae-section-select-label select:focus-visible {
+  outline: 3px solid #80caba; outline-offset: 2px;
+}
+@media (max-width: 640px) {
+  .bmda-sae-theme .bmda-sae-section-picker { padding: 15px; gap: 12px; }
+  .bmda-sae-theme .bmda-sae-section-select-label { max-width: none; flex-basis: 100%; }
+}

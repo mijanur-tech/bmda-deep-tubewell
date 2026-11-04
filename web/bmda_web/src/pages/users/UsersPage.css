@@ -1,0 +1,167 @@
+/* ============================================================
+   BMDA USERS MANAGEMENT — GREEN + WHITE
+   Styles scoped to this page only.
+   ============================================================ */
+
+/* SECTION 1: PAGE SPACING — Keep content away from sidebar */
+.bmda-users-page {
+  --users-green: #16834a;
+  --users-dark: #125e37;
+  --users-border: #d7e8dd;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  min-height: 100%;
+  padding: 28px;
+  background: #f5faf6;
+  color: #233a2c;
+  font-family: "Segoe UI", Arial, sans-serif;
+  text-align: left;
+}
+
+/* SECTION 2: HEADER AND ACTION BUTTONS */
+.bmda-users-page .users-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+.bmda-users-page .users-page-title {
+  margin: 0;
+  font-size: 28px;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: normal;
+  color: var(--users-dark);
+}
+.bmda-users-page .users-page-subtitle {
+  margin-top: 7px;
+  font-size: 14px;
+  color: #617869;
+}
+.bmda-users-page .users-page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+.bmda-users-page .users-btn {
+  padding: 11px 15px;
+  border-radius: 9px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.bmda-users-page .users-btn-outline {
+  background: #fff;
+  color: var(--users-dark);
+  border: 1px solid #b9dcc4;
+}
+.bmda-users-page .users-btn-primary {
+  background: var(--users-green);
+  color: #fff;
+  border: 1px solid var(--users-green);
+}
+.bmda-users-page .users-btn-outline:hover { background: #edf8f0; }
+.bmda-users-page .users-btn-primary:hover { background: var(--users-dark); }
+.bmda-users-page .users-btn:focus-visible,
+.bmda-users-page .users-table-scroll:focus-visible {
+  outline: 3px solid #8bd4a1;
+  outline-offset: 2px;
+}
+
+/* SECTION 3: USER COUNT CARD */
+.bmda-users-page .users-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: min(100%, 300px);
+  box-sizing: border-box;
+  padding: 20px;
+  margin-bottom: 24px;
+  border: 1px solid var(--users-border);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(19, 74, 38, 0.04);
+}
+.bmda-users-page .users-summary span { font-size: 14px; color: #617869; }
+.bmda-users-page .users-summary strong { font-size: 30px; color: var(--users-dark); }
+
+/* SECTION 4: TABLE CARD AND INDEPENDENT SCROLL AREA */
+.bmda-users-page .users-table-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--users-border);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(19, 74, 38, 0.04);
+}
+.bmda-users-page .users-table-caption {
+  padding: 18px 20px;
+  color: #64786b;
+  font-size: 14px;
+  border-bottom: 1px solid var(--users-border);
+}
+.bmda-users-page .users-table-scroll {
+  max-height: min(60vh, 550px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.bmda-users-page .users-table {
+  width: 100%;
+  min-width: 850px;
+  border-spacing: 0;
+  border-collapse: separate;
+  text-align: left;
+  font-size: 14px;
+}
+.bmda-users-page .users-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 14px;
+  background: #e7f4e9;
+  color: #205c39;
+  white-space: nowrap;
+  font-weight: 700;
+  border-bottom: 1px solid var(--users-border);
+}
+.bmda-users-page .users-table td {
+  padding: 14px;
+  border-bottom: 1px solid #edf2ee;
+  vertical-align: middle;
+}
+.bmda-users-page .users-table tbody tr:hover { background: #f7fbf8; }
+.bmda-users-page .users-table tbody tr:last-child td { border-bottom: 0; }
+.bmda-users-page .users-empty { padding: 30px; text-align: center; color: #617869; }
+
+/* SECTION 5: ACTIVE / INACTIVE LABELS */
+.bmda-users-page .users-status {
+  display: inline-block;
+  padding: 5px 11px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.bmda-users-page .users-status-active { background: #dcf5e4; color: #176534; }
+.bmda-users-page .users-status-inactive { background: #ffedd5; color: #9a3412; }
+
+/* SECTION 6: LOADING AND ERRORS */
+.bmda-users-page .users-notice {
+  padding: 18px;
+  background: #fff;
+  border: 1px solid var(--users-border);
+  border-radius: 10px;
+}
+.bmda-users-page .users-error { color: #b42318; border-color: #f1c7c7; }
+
+/* SECTION 7: SMALL SCREENS */
+@media (max-width: 650px) {
+  .bmda-users-page { padding: 16px; }
+  .bmda-users-page .users-page-title { font-size: 23px; }
+  .bmda-users-page .users-page-actions { width: 100%; }
+  .bmda-users-page .users-summary { width: 100%; }
+  .bmda-users-page .users-table-scroll { max-height: 55vh; }
+}

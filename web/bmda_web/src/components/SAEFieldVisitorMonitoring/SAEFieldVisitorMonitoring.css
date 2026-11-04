@@ -1,0 +1,39 @@
+/* SAE-only Field Visitor Monitoring — self-contained, no AE overrides. */
+.bmda-sae-monitor{color:#17344a;font-family:inherit}
+.bmda-sae-monitor-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.bmda-sae-monitor-kicker{display:block;color:#087f68;font-size:11px;font-weight:800;letter-spacing:1.5px;margin-bottom:7px}
+.bmda-sae-monitor-heading h2{color:#16344a;margin:0 0 7px;font-size:clamp(21px,2.4vw,27px)}
+.bmda-sae-monitor-heading p{color:#637a88;font-size:13px;line-height:1.6;margin:0}
+.bmda-sae-monitor-refresh{border:1px solid #b7d9d3;background:#eff9f6;color:#086d5a;border-radius:12px;padding:11px 16px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer}
+.bmda-sae-monitor-refresh:disabled{opacity:.65;cursor:wait}
+.bmda-sae-monitor-error{padding:14px;border-radius:12px;background:#fff0ef;color:#a62c29;border:1px solid #f3c6c2}
+.bmda-sae-monitor-info{color:#607b88;font-size:13px}
+.bmda-sae-monitor-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:18px 0 24px}
+.bmda-sae-monitor-stat{position:relative;border-radius:16px;padding:19px 17px;border:1px solid #e3ebe9;background:#fff;min-width:0;box-shadow:0 8px 25px rgba(19,52,74,.045);overflow:hidden}
+.bmda-sae-monitor-stat:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent)}
+.bmda-sae-monitor-stat--navy{--accent:#204765}.bmda-sae-monitor-stat--emerald{--accent:#087f68}.bmda-sae-monitor-stat--teal{--accent:#159a98}.bmda-sae-monitor-stat--amber{--accent:#d6a044}
+.bmda-sae-monitor-stat span{display:block;color:#667f8c;font-size:12px;line-height:1.4}
+.bmda-sae-monitor-stat strong{display:block;color:#16344a;font-size:32px;font-weight:800;margin-top:9px;line-height:1.1;font-variant-numeric:tabular-nums}
+.bmda-sae-monitor-toolbar{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 16px}
+.bmda-sae-monitor-search{flex:1 1 220px}.bmda-sae-monitor-filter{flex:0 1 180px}
+.bmda-sae-monitor-search,.bmda-sae-monitor-filter{display:flex;flex-direction:column;gap:6px;color:#415e70;font-size:12px;font-weight:700}
+.bmda-sae-monitor-toolbar input,.bmda-sae-monitor-toolbar select{min-width:0;width:100%;background:#fff;color:#153247;border:1px solid #ccdbdf;border-radius:11px;padding:11px 12px;font:inherit;font-size:13px}
+.bmda-sae-monitor-toolbar input:focus-visible,.bmda-sae-monitor-toolbar select:focus-visible,.bmda-sae-monitor-refresh:focus-visible{outline:3px solid #76cbc0;outline-offset:2px}
+.bmda-sae-monitor-results{display:flex;align-items:center;justify-content:space-between;gap:12px;color:#6f8490;font-size:12px;margin:14px 0 12px}
+.bmda-sae-monitor-results span{color:#9a7337}
+.bmda-sae-monitor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.bmda-sae-monitor-person{min-width:0;border:1px solid #e1eae9;border-radius:17px;background:linear-gradient(155deg,#fff 70%,#f1f8f6);padding:19px;box-shadow:0 5px 16px rgba(19,52,74,.035)}
+.bmda-sae-monitor-person-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.bmda-sae-monitor-avatar{display:grid;place-items:center;border-radius:13px;width:46px;height:46px;color:#fff;font-size:20px;font-weight:800;background:linear-gradient(145deg,#16344a,#087f68)}
+.bmda-sae-monitor-status{border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800}
+.bmda-sae-monitor-status.is-active{background:#e1f6e9;color:#087044}
+.bmda-sae-monitor-status.is-inactive{background:#f7eeee;color:#9a5454}
+.bmda-sae-monitor-person h3{color:#17344a;font-size:16px;line-height:1.4;overflow-wrap:anywhere;margin:0 0 5px}
+.bmda-sae-monitor-person p{color:#718694;font-size:12px;margin:0 0 18px}
+.bmda-sae-monitor-assigned{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#edf7f5;border-radius:10px;padding:12px}
+.bmda-sae-monitor-assigned span{font-size:12px;color:#547471}
+.bmda-sae-monitor-assigned strong{font-size:21px;color:#087f68;font-variant-numeric:tabular-nums}
+.bmda-sae-monitor-empty{padding:30px 18px;border:1px dashed #c6d8db;border-radius:13px;color:#637a88;text-align:center;font-size:13px}
+@media(max-width:1000px){.bmda-sae-monitor-stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.bmda-sae-monitor-grid{grid-template-columns:1fr}.bmda-sae-monitor-filter{flex:1 1 140px}}
+@media(max-width:430px){.bmda-sae-monitor-stats{gap:9px}.bmda-sae-monitor-stat{padding:15px 12px}.bmda-sae-monitor-stat strong{font-size:26px}.bmda-sae-monitor-toolbar{flex-direction:column}}

@@ -1,0 +1,57 @@
+/* Phase 05 / Step 30.11 — isolated SAE reading monitor; no AE/Admin style overrides. */
+.bmda-sae-theme .bmda-sae-reading{margin:22px 0 0;padding:24px;border:1px solid #d8e7e5;border-radius:20px;background:linear-gradient(145deg,#fff 0%,#f7fbfa 100%);box-shadow:0 10px 28px rgba(15,55,71,.055);color:#18384c;font-family:inherit}
+.bmda-sae-theme .bmda-sae-reading *{box-sizing:border-box}
+.bmda-sae-theme .bmda-sae-reading-header{display:flex;gap:16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;margin-bottom:20px}
+.bmda-sae-theme .bmda-sae-reading-eyebrow{color:#07866c;font-size:10px;font-weight:800;letter-spacing:1.3px}
+.bmda-sae-theme .bmda-sae-reading-header h2{margin:7px 0;color:#17384a;font-size:21px;line-height:1.3;font-weight:800}
+.bmda-sae-theme .bmda-sae-reading-header p{margin:0;color:#637987;font-size:13px;line-height:1.6}
+.bmda-sae-theme .bmda-sae-reading-refresh{border:1px solid #11917a;background:#eaf7f2;color:#08765f;padding:11px 15px;border-radius:11px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer}
+.bmda-sae-theme .bmda-sae-reading-refresh:disabled{opacity:.6;cursor:wait}
+.bmda-sae-theme .bmda-sae-reading-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.bmda-sae-theme .bmda-sae-reading-stat{min-width:0;display:flex;flex-direction:column;gap:9px;padding:17px;background:#edf6f4;border:1px solid #d9e9e4;border-radius:14px}
+.bmda-sae-theme .bmda-sae-reading-stat.is-warn{background:#fff7ed;border-color:#f1dfc5}
+.bmda-sae-theme .bmda-sae-reading-stat.is-energy{background:#ecf8f1;border-color:#d9eadc}
+.bmda-sae-theme .bmda-sae-reading-stat.is-prepaid{background:#eff7fb;border-color:#d9e7f1}
+.bmda-sae-theme .bmda-sae-reading-stat span{font-size:12px;font-weight:650;color:#536d79}
+.bmda-sae-theme .bmda-sae-reading-stat strong{color:#17384a;font-size:27px;font-variant-numeric:tabular-nums;line-height:1.1}
+.bmda-sae-theme .bmda-sae-reading-context{display:flex;flex-wrap:wrap;gap:9px;margin:14px 0 18px;font-size:11px;color:#647b83}
+.bmda-sae-theme .bmda-sae-reading-context span{border:1px solid #dbe9e6;background:#f7fbfa;padding:7px 10px;border-radius:999px}
+.bmda-sae-theme .bmda-sae-reading-context strong{color:#264f57}
+.bmda-sae-theme .bmda-sae-reading-filters{display:grid;grid-template-columns:minmax(180px,1.5fr) repeat(3,minmax(120px,1fr));gap:11px;margin:20px 0 12px}
+.bmda-sae-theme .bmda-sae-reading-filters label{min-width:0;display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:750;color:#526c7b}
+.bmda-sae-theme .bmda-sae-reading-filters input,.bmda-sae-theme .bmda-sae-reading-filters select{min-width:0;width:100%;font-size:13px;font-weight:500;font-family:inherit;color:#17384a;padding:11px;border-radius:10px;border:1px solid #cbdeda;background:#fff}
+.bmda-sae-theme .bmda-sae-reading-result-count{font-size:12px;color:#71838c;margin:14px 0}
+.bmda-sae-theme .bmda-sae-reading-list{display:grid;gap:13px}
+.bmda-sae-theme .bmda-sae-reading-well{border:1px solid #dfeae8;border-radius:15px;background:#fff;overflow:hidden;box-shadow:0 2px 9px rgba(20,51,60,.025)}
+.bmda-sae-theme .bmda-sae-reading-well-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:17px 18px 14px}
+.bmda-sae-theme .bmda-sae-reading-well-info{min-width:0;overflow-wrap:anywhere}
+.bmda-sae-theme .bmda-sae-reading-well-number{font-size:11px;font-weight:800;color:#087b68;letter-spacing:.4px}
+.bmda-sae-theme .bmda-sae-reading-well h3{font-size:16px;line-height:1.4;margin:4px 0;color:#18384c}
+.bmda-sae-theme .bmda-sae-reading-well p{font-size:12px;color:#677e89;margin:5px 0 0;line-height:1.5}
+.bmda-sae-theme .bmda-sae-reading-well p strong{color:#345564}
+.bmda-sae-theme .bmda-sae-reading-well-active{font-size:11px;font-weight:750;border-radius:99px;padding:5px 10px;white-space:nowrap}
+.bmda-sae-theme .bmda-sae-reading-well-active.is-active{background:#e5f7ed;color:#17764a}
+.bmda-sae-theme .bmda-sae-reading-well-active.is-inactive{background:#fff0e7;color:#985021}
+.bmda-sae-theme .bmda-sae-reading-meters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 15px 16px}
+.bmda-sae-theme .bmda-sae-reading-meter{min-width:0;padding:15px;border-radius:12px;border:1px solid #e0ebe9;background:#f6faf9}
+.bmda-sae-theme .bmda-sae-reading-meter-title{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:13px}
+.bmda-sae-theme .bmda-sae-reading-meter-name{font-size:13px;color:#1e4555;font-weight:800}
+.bmda-sae-theme .bmda-sae-reading-status{display:inline-block;font-size:10px;font-weight:800;line-height:1.4;padding:5px 9px;border-radius:99px;white-space:nowrap;background:#e9eef0;color:#536979}
+.bmda-sae-theme .bmda-sae-reading-status.is-overdue{color:#9c4520;background:#ffebdb}
+.bmda-sae-theme .bmda-sae-reading-status.is-up_to_date{color:#08734b;background:#dff4e8}
+.bmda-sae-theme .bmda-sae-reading-status.is-not_started{color:#856010;background:#fff1c9}
+.bmda-sae-theme .bmda-sae-reading-meta{margin:0;display:grid;gap:8px}
+.bmda-sae-theme .bmda-sae-reading-meta>div{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.bmda-sae-theme .bmda-sae-reading-meta dt{font-size:11px;color:#6e818a;flex:0 0 93px}
+.bmda-sae-theme .bmda-sae-reading-meta dd{min-width:0;overflow-wrap:anywhere;text-align:right;margin:0;font-size:11px;font-weight:700;color:#2d4e5d}
+.bmda-sae-theme .bmda-sae-reading-note{font-size:11px!important;color:#677b85!important;margin:12px 0 0!important;padding-top:9px;border-top:1px dashed #dce8e5}
+.bmda-sae-theme .bmda-sae-reading-empty,.bmda-sae-theme .bmda-sae-reading-message{background:#f4faf8;border:1px dashed #cddfda;border-radius:14px;padding:26px;text-align:center;color:#657b86;font-size:13px}
+.bmda-sae-theme .bmda-sae-reading-empty strong{display:block;font-size:15px;color:#244656}
+.bmda-sae-theme .bmda-sae-reading-empty p{font-size:12px;margin:8px 0 0}
+.bmda-sae-theme .bmda-sae-reading-error{padding:17px;background:#fff0ed;border:1px solid #f4c9c0;border-radius:12px;color:#a63c2a;font-size:13px}
+.bmda-sae-theme .bmda-sae-reading-error button{margin-left:10px;cursor:pointer;font-weight:700;border:0;color:inherit;background:transparent;text-decoration:underline}
+.bmda-sae-theme .bmda-sae-reading-footer{margin:18px 0 0;font-size:11px;line-height:1.7;color:#73848b}
+.bmda-sae-theme .bmda-sae-reading button:focus-visible,.bmda-sae-theme .bmda-sae-reading input:focus-visible,.bmda-sae-theme .bmda-sae-reading select:focus-visible{outline:3px solid #159e95;outline-offset:2px}
+@media(max-width:1150px){.bmda-sae-theme .bmda-sae-reading-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.bmda-sae-theme .bmda-sae-reading-filters{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.bmda-sae-theme .bmda-sae-reading{padding:15px;border-radius:15px}.bmda-sae-theme .bmda-sae-reading-header h2{font-size:18px}.bmda-sae-theme .bmda-sae-reading-filters,.bmda-sae-theme .bmda-sae-reading-meters{grid-template-columns:1fr}.bmda-sae-theme .bmda-sae-reading-well-header{padding:13px}.bmda-sae-theme .bmda-sae-reading-meters{padding:0 11px 12px}.bmda-sae-theme .bmda-sae-reading-stat{padding:12px}.bmda-sae-theme .bmda-sae-reading-stat strong{font-size:23px}}
+@media(prefers-reduced-motion:reduce){.bmda-sae-theme .bmda-sae-reading *{scroll-behavior:auto}}
