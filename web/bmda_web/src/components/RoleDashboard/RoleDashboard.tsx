@@ -919,8 +919,8 @@ export default function RoleDashboard({ role }: { role: Role }) {
           </section>
 
           <section id="bmda-role-workflow" className="bmda-role-section bmda-role-panel">
-            <div className="bmda-role-section-heading"><h2>{isAE ? "Approval workflow" : "Review workflow"}</h2><p>{isAE ? "Review authorized approval requests within your management unit. Meter replacement requests are handled separately by meter type." : "Request details, review actions and audit history will be connected only after the relevant role-scoped API is verified."}</p></div>
-            <div className="bmda-role-notice"><strong>{isAE ? "Final Approval Workflow" : "Sub-Assistant Engineer Review Workflow"}</strong><p>{isAE ? "Review requests forwarded by Sub-Assistant Engineers. Final approval applies the authorized change." : "Review requests submitted by field users. Forward eligible requests to the Assistant Engineer."}</p></div>
+            <div className="bmda-role-section-heading"><h2>{isAE ? "Approval workflow" : "Review workflow"}</h2><p>{isAE ? "Review authorized approval requests within your management unit. Meter replacement requests are handled separately by meter type." : "Review Reading Corrections with final SAE authority. Recommend Meter Replacement and Tubewell Status requests for AE final authorization."}</p></div>
+            <div className="bmda-role-notice"><strong>{isAE ? "Final Approval Workflow" : "Sub-Assistant Engineer Review Workflow"}</strong><p>{isAE ? "Review requests forwarded by Sub-Assistant Engineers. Final approval applies the authorized change." : "Review requests from your assigned Field Visitors. SAE decides Reading Corrections; Meter Replacement and Tubewell Status require AE final authorization."}</p></div>
           </section>
           {isAE && (
             <section id="bmda-role-meter-replacements" className="bmda-role-section bmda-role-panel">
