@@ -323,3 +323,64 @@
   .bmda-sae-theme .bmda-sae-top-tabs { border-radius: 12px; margin-bottom: 14px; }
   .bmda-sae-theme .bmda-sae-tab { padding: 11px 14px; font-size: 12px; }
 }
+
+
+/* BMDA Phase 05 — Step 33.1: SAE-only top navigation visual refinement.
+   This layer changes visual styling only. No navigation or role logic changes. */
+.bmda-role-shell.bmda-sae-theme .bmda-sae-top-tabs {
+  gap: 7px;
+  padding: 9px;
+  border: 1px solid #d8e6e8;
+  border-radius: 17px;
+  background: linear-gradient(115deg, #eff7f7 0%, #f5f9fa 58%, #edf4f7 100%);
+  box-shadow: 0 6px 22px rgba(25, 66, 84, .065), inset 0 1px 0 rgba(255,255,255,.88);
+  -webkit-overflow-scrolling: touch;
+}
+
+.bmda-role-shell.bmda-sae-theme .bmda-sae-tab {
+  position: relative;
+  padding: 12px 17px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  background: transparent;
+  color: #405d6e;
+  font-weight: 700;
+  letter-spacing: .005em;
+  transition: background-color 170ms ease, color 170ms ease,
+    border-color 170ms ease, box-shadow 170ms ease;
+}
+
+.bmda-role-shell.bmda-sae-theme .bmda-sae-tab:hover:not(.is-active) {
+  background: rgba(255,255,255,.86);
+  color: #086f67;
+  border-color: #d5e8e6;
+}
+
+.bmda-role-shell.bmda-sae-theme .bmda-sae-tab.is-active {
+  background: linear-gradient(110deg, #087e6d 0%, #0a8c85 100%);
+  color: #fff;
+  border-color: rgba(7, 96, 86, .3);
+  box-shadow: 0 5px 15px rgba(8, 113, 105, .19), inset 0 1px 0 rgba(255,255,255,.16);
+}
+
+.bmda-role-shell.bmda-sae-theme .bmda-sae-tab:focus-visible {
+  outline: 3px solid #0b8b82;
+  outline-offset: 2px;
+}
+
+@media (max-width: 760px) {
+  .bmda-role-shell.bmda-sae-theme .bmda-sae-top-tabs {
+    padding: 7px;
+    gap: 5px;
+    border-radius: 13px;
+  }
+  .bmda-role-shell.bmda-sae-theme .bmda-sae-tab {
+    padding: 11px 14px;
+    border-radius: 9px;
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bmda-role-shell.bmda-sae-theme .bmda-sae-tab { transition: none; }
+}
