@@ -384,3 +384,38 @@
 @media (prefers-reduced-motion: reduce) {
   .bmda-role-shell.bmda-sae-theme .bmda-sae-tab { transition: none; }
 }
+
+
+/* BMDA Phase 05 Step 33.10 - SAE responsive polish; visual changes only. */
+@media (max-width: 1050px) {
+  .bmda-role-shell.bmda-sae-theme .bmda-role-content { min-width: 0; }
+  .bmda-role-shell.bmda-sae-theme .bmda-role-cards-premium { gap: 14px; }
+  .bmda-role-shell.bmda-sae-theme .bmda-role-premium-card { min-width: 0; }
+}
+@media (max-width: 760px) {
+  .bmda-role-shell.bmda-sae-theme .bmda-sae-top-tabs {
+    max-width: 100%;
+    overscroll-behavior-x: contain;
+    scroll-padding-inline: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .bmda-role-shell.bmda-sae-theme .bmda-sae-tab {
+    min-height: 44px;
+    white-space: nowrap;
+  }
+  .bmda-role-shell.bmda-sae-theme .bmda-role-premium-card {
+    padding: 19px;
+    min-height: 0;
+  }
+  .bmda-role-shell.bmda-sae-theme .bmda-sae-quick-action { padding: 15px; }
+}
+@media (max-width: 560px) {
+  .bmda-role-shell.bmda-sae-theme .bmda-role-cards-premium {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .bmda-role-shell.bmda-sae-theme .bmda-role-premium-card { min-height: 0; }
+  .bmda-role-shell.bmda-sae-theme .bmda-sae-top-tabs { margin-bottom: 13px; }
+  .bmda-role-shell.bmda-sae-theme .bmda-sae-quick-action { min-width: 0; }
+  .bmda-role-shell.bmda-sae-theme .bmda-sae-quick-copy { overflow-wrap: anywhere; }
+}

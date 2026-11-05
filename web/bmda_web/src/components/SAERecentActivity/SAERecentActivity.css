@@ -42,3 +42,39 @@
   .bmda-sae-recent__details { flex-basis: calc(100% - 52px); }
   .bmda-sae-recent__date { margin-left: 48px; justify-items: start; }
 }
+
+
+/* BMDA Phase 05 Step 33.10 - SAE recent reading mobile layout. */
+@media (max-width: 740px) {
+  .bmda-sae-theme .bmda-sae-recent { min-width: 0; }
+  .bmda-sae-theme .bmda-sae-recent__header,
+  .bmda-sae-theme .bmda-sae-recent__details { min-width: 0; }
+  .bmda-sae-theme .bmda-sae-recent__link { min-height: 44px; }
+  .bmda-sae-theme .bmda-sae-recent__item { min-width: 0; }
+  .bmda-sae-theme .bmda-sae-recent__date { min-width: 0; }
+}
+@media (max-width: 480px) {
+  .bmda-sae-theme .bmda-sae-recent {
+    padding: 16px 13px;
+    border-radius: 15px;
+  }
+  .bmda-sae-theme .bmda-sae-recent__item {
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+    padding: 12px;
+  }
+  .bmda-sae-theme .bmda-sae-recent__type { grid-column: 1; }
+  .bmda-sae-theme .bmda-sae-recent__details {
+    grid-column: 2;
+    min-width: 0;
+    flex-basis: auto;
+  }
+  .bmda-sae-theme .bmda-sae-recent__date {
+    grid-column: 2;
+    margin-left: 0;
+    justify-items: start;
+  }
+  .bmda-sae-theme .bmda-sae-recent__meta { overflow-wrap: anywhere; }
+}

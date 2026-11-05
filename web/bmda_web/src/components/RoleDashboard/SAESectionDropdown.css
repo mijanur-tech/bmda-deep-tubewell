@@ -39,3 +39,31 @@
   .bmda-sae-theme .bmda-sae-section-picker { padding: 15px; gap: 12px; }
   .bmda-sae-theme .bmda-sae-section-select-label { max-width: none; flex-basis: 100%; }
 }
+
+
+/* BMDA Phase 05 Step 33.10 - SAE mobile section picker refinements. */
+@media (max-width: 760px) {
+  .bmda-sae-theme .bmda-sae-section-picker {
+    min-width: 0;
+    gap: 12px;
+    margin: 12px 0 18px;
+  }
+  .bmda-sae-theme .bmda-sae-section-picker-copy,
+  .bmda-sae-theme .bmda-sae-section-select-label {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .bmda-sae-theme .bmda-sae-section-select-label select {
+    max-width: 100%;
+    min-height: 44px;
+  }
+}
+@media (max-width: 560px) {
+  .bmda-sae-theme .bmda-sae-section-picker {
+    padding: 14px;
+    border-radius: 13px;
+  }
+  .bmda-sae-theme .bmda-sae-section-picker-copy { flex-basis: 100%; }
+  .bmda-sae-theme .bmda-sae-section-picker-copy strong { font-size: 16px; }
+  .bmda-sae-theme .bmda-sae-section-select-label { flex-basis: 100%; }
+}
