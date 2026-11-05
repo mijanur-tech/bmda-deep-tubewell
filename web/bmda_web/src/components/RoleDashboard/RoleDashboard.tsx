@@ -684,6 +684,48 @@ export default function RoleDashboard({ role }: { role: Role }) {
                                   : "Verified data integration pending"}
                       </p>
                     )}
+                    {!isAE && (
+                      <button
+                        type="button"
+                        aria-label={`Open ${[
+                          "Field Visitor Monitoring",
+                          "Field Visitor-wise Assignments",
+                          "Approval Requests",
+                          "Reading Activity Monitoring",
+                        ][i]}`}
+                        onClick={() => {
+                          const target = [
+                            { tab: "responsibilities", section: "visitors" },
+                            { tab: "tubewells", section: "assignments" },
+                            { tab: "approvals", section: "requests" },
+                            { tab: "responsibilities", section: "readings" },
+                          ][i];
+                          if (!target) return;
+                          goToSection(target.tab);
+                          setSaeSection(target.section);
+                        }}
+                        style={{
+                          alignSelf: "flex-start",
+                          marginTop: 14,
+                          padding: "10px 13px",
+                          border: "1px solid #bcded8",
+                          borderRadius: 10,
+                          background: "#f0faf7",
+                          color: "#087562",
+                          font: "inherit",
+                          fontSize: 13,
+                          fontWeight: 700,
+                          cursor: "pointer",
+                        }}
+                      >
+                        {[
+                          "View field visitors",
+                          "View assignments",
+                          "Review requests",
+                          "View reading activity",
+                        ][i]} ↗
+                      </button>
+                    )}
                   </article>
                 );
               })}
