@@ -19,6 +19,7 @@ import {
 import { calculateAEAssignmentCoverage } from "../../api/aeAssignmentCoverage";
 import AEFieldUserCoverage from "../AEFieldUserCoverage/AEFieldUserCoverage";
 import SAEReadingActivityMonitoring from "../SAEReadingActivityMonitoring/SAEReadingActivityMonitoring";
+import SAERecentActivity from "../SAERecentActivity/SAERecentActivity";
 import SAETubewellAssignmentMonitoring from "../SAETubewellAssignmentMonitoring/SAETubewellAssignmentMonitoring";
 import SAEFieldVisitorMonitoring from "../SAEFieldVisitorMonitoring/SAEFieldVisitorMonitoring";
 import bmdaLogo from "../../assets/bmda-logo.png";
@@ -688,6 +689,17 @@ export default function RoleDashboard({ role }: { role: Role }) {
               })}
             </div>
           </section>
+          {!isAE && saeSection === "summary" && (
+            <SAERecentActivity
+              data={saeActivity}
+              loading={saeActivityLoading}
+              error={saeActivityError}
+              onViewAll={() => {
+                goToSection("responsibilities");
+                setSaeSection("readings");
+              }}
+            />
+          )}
           {isAE && (
             <section
               className="bmda-role-section bmda-role-panel"
