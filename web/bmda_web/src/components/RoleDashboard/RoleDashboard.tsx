@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { removeAccessToken } from "../../auth/session";
 import { useCurrentUser } from "../../auth/useCurrentUser";
 import { getTubewells, type TubewellItem } from "../../api/tubewells.api";
+import { getSAEFieldVisitorSummary, type SAEFieldVisitorSummaryResponse } from "../../api/saeFieldVisitorSummary.api";
+import { getSAEReadingActivity, type SAEReadingActivityResponse } from "../../api/saeReadingActivity.api";
+import { getSAEPendingRequests } from "../../api/saePendingRequests.api";
 import { getAEPersonnelSummary, type AEPersonnelSummary } from "../../api/aePersonnelSummary.api";
 import { getAEPendingTubewellStatusRequests } from "../../api/aePendingRequests.api";
 import { getAEReadingWarnings, type AEReadingWarnings } from "../../api/aeReadingWarnings.api";
@@ -113,6 +116,16 @@ export default function RoleDashboard({ role }: { role: Role }) {
   const [meterReviewBusy, setMeterReviewBusy] = useState(false);
   const [meterReviewMessage, setMeterReviewMessage] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
+  // SAE-only live overview. Keep AE data loading and permissions unchanged.
+  const [saeTeam, setSaeTeam] = useState<SAEFieldVisitorSummaryResponse | null>(null);
+  const [saeTeamLoading, setSaeTeamLoading] = useState(false);
+  const [saeTeamError, setSaeTeamError] = useState("");
+  const [saeActivity, setSaeActivity] = useState<SAEReadingActivityResponse | null>(null);
+  const [saeActivityLoading, setSaeActivityLoading] = useState(false);
+  const [saeActivityError, setSaeActivityError] = useState("");
+  const [saePendingCount, setSaePendingCount] = useState<number | null>(null);
+  const [saePendingLoading, setSaePendingLoading] = useState(false);
+  const [saePendingError, setSaePendingError] = useState("");
   const [search, setSearch] = useState("");
   const [saeTubewellStatus, setSaeTubewellStatus] = useState<"all" | "active" | "inactive">("all");
   const [pageSize, setPageSize] = useState<number>(10);
@@ -288,6 +301,77 @@ export default function RoleDashboard({ role }: { role: Role }) {
       cancelled = true;
     };
   }, [isAE, user, loading, error, refreshKey]);
+  // The backend scopes each endpoint to the authenticated SAE/team.
+  // Separate requests prevent one failing card from hiding healthy cards.
+  useEffect(() => {
+    if (isAE || loading || error || !user) return;
+    let cancelled = false;
+    setSaeTeamLoading(true);
+    setSaeTeamError("");
+    getSAEFieldVisitorSummary()
+      .then((data) => {
+        if (cancelled) return;
+        if (!Number.isSafeInteger(data.total_field_visitors) || data.total_field_visitors < 0 ||
+            !Number.isSafeInteger(data.assigned_tubewells) || data.assigned_tubewells < 0) {
+          throw new Error("Invalid SAE field visitor summary response.");
+        }
+        setSaeTeam(data);
+      })
+      .catch((err: unknown) => {
+        if (!cancelled) {
+          setSaeTeam(null);
+          setSaeTeamError(err instanceof Error ? err.message : "Unable to load field visitor statistics.");
+        }
+      })
+      .finally(() => { if (!cancelled) setSaeTeamLoading(false); });
+    return () => { cancelled = true; };
+  }, [isAE, loading, error, user, refreshKey]);
+
+  useEffect(() => {
+    if (isAE || loading || error || !user) return;
+    let cancelled = false;
+    setSaeActivityLoading(true);
+    setSaeActivityError("");
+    getSAEReadingActivity()
+      .then((data) => {
+        if (cancelled) return;
+        if (![data.overdue_tubewells, data.energy_overdue, data.prepaid_overdue].every(
+          (count) => Number.isSafeInteger(count) && count >= 0
+        )) {
+          throw new Error("Invalid SAE reading warning response.");
+        }
+        setSaeActivity(data);
+      })
+      .catch((err: unknown) => {
+        if (!cancelled) {
+          setSaeActivity(null);
+          setSaeActivityError(err instanceof Error ? err.message : "Unable to load reading warnings.");
+        }
+      })
+      .finally(() => { if (!cancelled) setSaeActivityLoading(false); });
+    return () => { cancelled = true; };
+  }, [isAE, loading, error, user, refreshKey]);
+
+  useEffect(() => {
+    if (isAE || loading || error || !user) return;
+    let cancelled = false;
+    setSaePendingLoading(true);
+    setSaePendingError("");
+    getSAEPendingRequests()
+      .then((data) => {
+        if (cancelled) return;
+        setSaePendingCount(data.length);
+      })
+      .catch((err: unknown) => {
+        if (!cancelled) {
+          setSaePendingCount(null);
+          setSaePendingError(err instanceof Error ? err.message : "Unable to load pending reviews.");
+        }
+      })
+      .finally(() => { if (!cancelled) setSaePendingLoading(false); });
+    return () => { cancelled = true; };
+  }, [isAE, loading, error, user, refreshKey]);
+
   const filtered = useMemo(() => {
     const q = search.trim().toLocaleLowerCase();
     return tubewells.filter((item) => {
@@ -499,6 +583,16 @@ export default function RoleDashboard({ role }: { role: Role }) {
           </section>
           <section className="bmda-role-section" aria-label="Workspace status" hidden={!isAE && saeSection !== "summary"}>
             <div className="bmda-role-section-heading"><h2>Workspace overview</h2><p>{isAE ? "AE dashboard statistics use authorized management-unit APIs for tubewells, personnel, pending approvals, assignments and reading warnings." : "Your field operations workspace for assigned tubewells, field visitors, pending reviews and reading follow-ups."}</p></div>
+            {!isAE && (
+              <button
+                type="button"
+                onClick={() => setRefreshKey((value) => value + 1)}
+                disabled={saeTeamLoading || saePendingLoading || saeActivityLoading}
+                style={{ marginBottom: 14, padding: "9px 14px", border: "1px solid #b9d7cc", borderRadius: 9, background: "#fff", color: "#165c4b", fontWeight: 700, cursor: "pointer" }}
+              >
+                Refresh overview
+              </button>
+            )}
             <div className="bmda-role-cards bmda-role-cards-premium">
               {(isAE
                 ? ["Unit Tubewells", "Field Personnel", "Pending Requests", "Reading Warnings"]
@@ -513,15 +607,23 @@ export default function RoleDashboard({ role }: { role: Role }) {
                   ? personnel.sub_assistant_engineers.total + personnel.field_visitors.total
                   : null;
 
-                const value = isTubewellCard
-                  ? (tubewellsLoading ? "Loading..." : tubewellsError ? "Unavailable" : tubewells.length)
-                  : isPersonnelCard
-                    ? (personnelLoading ? "Loading..." : personnelError || personnelTotal === null ? "Unavailable" : personnelTotal)
-                    : isAEPendingCard
-                      ? ((aePendingLoading || aeMeterRequestsLoading) ? "Loading..." : (aePendingError || aeMeterRequestsError || aePendingCount === null) ? "Unavailable" : aePendingCount + aeMeterRequests.length)
-                      : isAEReadingCard
-                        ? (readingWarningsLoading ? "Loading..." : readingWarningsError || !readingWarnings ? "Unavailable" : readingWarnings.overdue_tubewells)
-                        : "—";
+                const value = !isAE
+                  ? i === 0
+                    ? (saeTeamLoading ? "Loading..." : saeTeamError || !saeTeam ? "Unavailable" : saeTeam.total_field_visitors)
+                    : i === 1
+                      ? (saeTeamLoading ? "Loading..." : saeTeamError || !saeTeam ? "Unavailable" : saeTeam.assigned_tubewells)
+                      : i === 2
+                        ? (saePendingLoading ? "Loading..." : saePendingError || saePendingCount === null ? "Unavailable" : saePendingCount)
+                        : (saeActivityLoading ? "Loading..." : saeActivityError || !saeActivity ? "Unavailable" : saeActivity.overdue_tubewells)
+                  : isTubewellCard
+                    ? (tubewellsLoading ? "Loading..." : tubewellsError ? "Unavailable" : tubewells.length)
+                    : isPersonnelCard
+                      ? (personnelLoading ? "Loading..." : personnelError || personnelTotal === null ? "Unavailable" : personnelTotal)
+                      : isAEPendingCard
+                        ? ((aePendingLoading || aeMeterRequestsLoading) ? "Loading..." : (aePendingError || aeMeterRequestsError || aePendingCount === null) ? "Unavailable" : aePendingCount + aeMeterRequests.length)
+                        : isAEReadingCard
+                          ? (readingWarningsLoading ? "Loading..." : readingWarningsError || !readingWarnings ? "Unavailable" : readingWarnings.overdue_tubewells)
+                          : "—";
 
                 const icons = ["◫", "♙", "✓", "!"];
 
@@ -530,7 +632,7 @@ export default function RoleDashboard({ role }: { role: Role }) {
                     <div className="bmda-role-premium-top">
                       <span className="bmda-role-premium-icon" aria-hidden="true">{icons[i]}</span>
                       <span className="bmda-role-premium-indicator">
-                        {isTubewellCard || isPersonnelCard || isAEPendingCard || isAEReadingCard ? "LIVE" : "PENDING"}
+                        LIVE
                       </span>
                     </div>
 
@@ -549,17 +651,36 @@ export default function RoleDashboard({ role }: { role: Role }) {
                         <div><span>Not started</span><strong>{readingWarnings.reading_not_started}</strong></div>
                         <p>{readingWarnings.warning_threshold_days}-day warning threshold</p>
                       </div>
+                    ) : !isAE && i === 0 && !saeTeamLoading && !saeTeamError && saeTeam ? (
+                      <div className="bmda-role-premium-personnel">
+                        <span>Active: <strong>{saeTeam.active_field_visitors}</strong></span>
+                        <span>Inactive: <strong>{saeTeam.inactive_field_visitors}</strong></span>
+                      </div>
+                    ) : !isAE && i === 3 && !saeActivityLoading && !saeActivityError && saeActivity ? (
+                      <div className="bmda-role-premium-reading">
+                        <div><span>Energy</span><strong>{saeActivity.energy_overdue}</strong></div>
+                        <div><span>Prepaid</span><strong>{saeActivity.prepaid_overdue}</strong></div>
+                        <p>{saeActivity.warning_threshold_days}-day warning threshold · distinct tubewells</p>
+                      </div>
                     ) : (
                       <p className="bmda-role-premium-description">
-                        {isTubewellCard
-                          ? (tubewellsError ? "Unable to load authorized tubewells" : "Registered within authorized scope")
-                          : isPersonnelCard
-                            ? (personnelError ? "Unable to load personnel" : "Authorized personnel summary")
-                            : isAEPendingCard
-                              ? (aePendingError ? "Unable to load approval queue" : "Tubewell status and meter replacement requests awaiting AE approval")
-                              : isAEReadingCard
-                                ? (readingWarningsError ? "Unable to load reading warnings" : "Authorized reading warning summary")
-                                : "Verified data integration pending"}
+                        {!isAE
+                          ? i === 0
+                            ? (saeTeamError ? "Unable to load assigned field visitors" : "Field visitors under your supervision")
+                            : i === 1
+                              ? (saeTeamError ? "Unable to load team assignments" : "Currently assigned tubewells in your field team")
+                              : i === 2
+                                ? (saePendingError ? "Unable to load pending reviews" : "Requests awaiting your review")
+                                : (saeActivityError ? "Unable to load reading warnings" : "Overdue Energy / Prepaid readings in your team")
+                          : isTubewellCard
+                            ? (tubewellsError ? "Unable to load authorized tubewells" : "Registered within authorized scope")
+                            : isPersonnelCard
+                              ? (personnelError ? "Unable to load personnel" : "Authorized personnel summary")
+                              : isAEPendingCard
+                                ? (aePendingError ? "Unable to load approval queue" : "Tubewell status and meter replacement requests awaiting AE approval")
+                                : isAEReadingCard
+                                  ? (readingWarningsError ? "Unable to load reading warnings" : "Authorized reading warning summary")
+                                  : "Verified data integration pending"}
                       </p>
                     )}
                   </article>
