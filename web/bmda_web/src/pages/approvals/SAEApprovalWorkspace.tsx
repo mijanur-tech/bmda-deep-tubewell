@@ -1,4 +1,4 @@
-﻿import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   getSAEPendingRequests,
   reviewSAEReadingCorrection,
@@ -49,6 +49,7 @@ export default function SAEApprovalWorkspace({ inline = false }: Props) {
   const [filter, setFilter] = useState<FilterType>("all");
   const [comments, setComments] = useState<Record<string, string>>({});
   const [selected, setSelected] = useState<SAEPendingRequest | null>(null);
+  const [selectedAction, setSelectedAction] = useState<SAEReviewAction | null>(null);
 
   const loadRequests = useCallback(async () => {
     setLoading(true);
@@ -81,11 +82,32 @@ export default function SAEApprovalWorkspace({ inline = false }: Props) {
     void loadRequests();
   }, [loadRequests]);
 
+  function beginReview(request: SAEPendingRequest, action: SAEReviewAction) {
+    if (busyKey !== null) return;
+
+    const comment = (comments[requestKey(request)] ?? "").trim();
+    if (action === "rejected" && request.request_type === "reading_correction" && !comment) {
+      setError("Rejection reason is required for Reading Correction requests.");
+      return;
+    }
+
+    setError("");
+    setSelected(request);
+    setSelectedAction(action);
+  }
+
   async function submitReview(action: SAEReviewAction) {
-    if (!selected || busyKey !== null) return;
+    if (!selected || selectedAction !== action || busyKey !== null) return;
 
     const key = requestKey(selected);
     const comment = (comments[key] ?? "").trim();
+
+    if (action === "rejected" && selected.request_type === "reading_correction" && !comment) {
+      setError("Rejection reason is required for Reading Correction requests.");
+      setSelected(null);
+      setSelectedAction(null);
+      return;
+    }
 
     if (comment.length > 500) {
       setError("Review comment cannot exceed 500 characters.");
@@ -118,6 +140,7 @@ export default function SAEApprovalWorkspace({ inline = false }: Props) {
         current.filter((item) => requestKey(item) !== key)
       );
       setSelected(null);
+      setSelectedAction(null);
       setMessage(
         `${getRequestLabel(selected.request_type)} #${selected.request_id} ${
           action === "approved" ? "reviewed successfully." : "rejected successfully."
@@ -126,6 +149,7 @@ export default function SAEApprovalWorkspace({ inline = false }: Props) {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Review action failed.");
       setSelected(null);
+      setSelectedAction(null);
     } finally {
       setBusyKey(null);
     }
@@ -258,7 +282,7 @@ export default function SAEApprovalWorkspace({ inline = false }: Props) {
                   <p>{request.reason}</p>
                 </div>
 
-                <label htmlFor={`sae-comment-${key}`}>Review comment (optional, maximum 500 characters)</label>
+                <label htmlFor={`sae-comment-${key}`}>Review comment (required for Reading Correction rejection; maximum 500 characters)</label>
                 <textarea
                   id={`sae-comment-${key}`}
                   rows={3}
@@ -276,7 +300,7 @@ export default function SAEApprovalWorkspace({ inline = false }: Props) {
                     type="button"
                     className="sae-reject-button"
                     disabled={busyKey !== null}
-                    onClick={() => setSelected(request)}
+                    onClick={() => beginReview(request, "rejected")}
                   >
                     Reject
                   </button>
@@ -284,7 +308,7 @@ export default function SAEApprovalWorkspace({ inline = false }: Props) {
                     type="button"
                     className="sae-approve-button"
                     disabled={busyKey !== null}
-                    onClick={() => setSelected(request)}
+                    onClick={() => beginReview(request, "approved")}
                   >
                     Review & Forward / Approve
                   </button>
@@ -295,34 +319,41 @@ export default function SAEApprovalWorkspace({ inline = false }: Props) {
         </section>
       )}
 
-      {selected && (
+      {selected && selectedAction && (
         <div className="sae-confirm-overlay">
-          <section className="sae-confirm-dialog" role="dialog" aria-modal="true">
-            <h2>Confirm Review Decision</h2>
+          <section className="sae-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="sae-review-dialog-title">
+            <h2 id="sae-review-dialog-title">Confirm Review Decision</h2>
             <p>
-              Select the appropriate action for{" "}
-              {getRequestLabel(selected.request_type)} #{selected.request_id}.
+              {selectedAction === "rejected" ? "Reject" : "Review and approve/forward"}{" "}
+              {getRequestLabel(selected.request_type)} #{selected.request_id}?
             </p>
             <div className="sae-request-actions">
-              <button type="button" onClick={() => setSelected(null)} disabled={busyKey !== null}>
+              <button
+                type="button"
+                onClick={() => { setSelected(null); setSelectedAction(null); }}
+                disabled={busyKey !== null}
+              >
                 Cancel
               </button>
-              <button
-                type="button"
-                className="sae-reject-button"
-                onClick={() => void submitReview("rejected")}
-                disabled={busyKey !== null}
-              >
-                Reject
-              </button>
-              <button
-                type="button"
-                className="sae-approve-button"
-                onClick={() => void submitReview("approved")}
-                disabled={busyKey !== null}
-              >
-                {busyKey !== null ? "Processing..." : "Confirm Approval"}
-              </button>
+              {selectedAction === "rejected" ? (
+                <button
+                  type="button"
+                  className="sae-reject-button"
+                  onClick={() => void submitReview("rejected")}
+                  disabled={busyKey !== null}
+                >
+                  {busyKey !== null ? "Processing..." : "Confirm Rejection"}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="sae-approve-button"
+                  onClick={() => void submitReview("approved")}
+                  disabled={busyKey !== null}
+                >
+                  {busyKey !== null ? "Processing..." : "Confirm Approval / Forward"}
+                </button>
+              )}
             </div>
           </section>
         </div>

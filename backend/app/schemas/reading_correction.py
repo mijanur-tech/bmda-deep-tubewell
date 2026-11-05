@@ -1,3 +1,4 @@
+
 # ============================================================
 # SECTION 1: IMPORTS
 # ============================================================
@@ -9,6 +10,7 @@ from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
+    model_validator,
 )
 
 
@@ -99,6 +101,24 @@ class ReadingCorrectionReviewRequest(BaseModel):
         default=None,
         max_length=500,
     )
+
+    @model_validator(mode="after")
+    def validate_rejection_reason(self):
+
+        # Approval does not require a comment.
+        # Rejection must include a meaningful reason.
+
+        if self.action == "rejected":
+
+            if (
+                self.review_comment is None
+                or not self.review_comment.strip()
+            ):
+                raise ValueError(
+                    "Rejection reason is required."
+                )
+
+        return self
 
 
 # ============================================================

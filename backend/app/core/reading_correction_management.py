@@ -608,6 +608,10 @@ def review_reading_correction_request(
         review_comment
     )
 
+    # Rejection requires a meaningful reason, even for direct service calls.
+    if action == "rejected" and not valid_comment:
+        raise ValueError("Rejection reason is required.")
+
     request_record = (
         get_pending_correction_for_supervisor(
             db,
