@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -10,476 +10,223 @@ import {
   type UserItem,
   type ManagementUnit,
 } from "../../api/users.api";
-
 import "./EditUserPage.css";
 
-// ============================================================
-// SECTION 1: ROLE LABELS
-// Convert internal role names to readable labels.
-// ============================================================
-
+// SECTION 1: Display labels. Backend role identifiers never change.
 const roleLabels: Record<string, string> = {
   admin: "Executive Engineer (Admin)",
   assistant_engineer: "Assistant Engineer",
   supervisor: "Sub-Assistant Engineer",
-  field_user: "Field Visitor (Field User)",
+  field_user: "Field Visitor",
 };
-
-// ============================================================
-// SECTION 2: EDIT USER PAGE
-// Only authorized Admin users can access this page
-// through the protected application router.
-// ============================================================
 
 function EditUserPage() {
   const navigate = useNavigate();
   const { userId } = useParams();
 
-  // ==========================================================
-  // SECTION 3: DATA STATES
-  // Store the selected user and management information.
-  // ==========================================================
-
+  // SECTION 2: Server data, form data and request states.
   const [user, setUser] = useState<UserItem | null>(null);
-
   const [users, setUsers] = useState<UserItem[]>([]);
-
-  const [managementUnits, setManagementUnits] =
-    useState<ManagementUnit[]>([]);
-
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-
-  // ==========================================================
-  // SECTION 4: EDITABLE FORM STATES
-  // Only Full Name and Username can be changed.
-  // ==========================================================
-
+  const [managementUnits, setManagementUnits] = useState<ManagementUnit[]>([]);
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [loadError, setLoadError] = useState("");
+  const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [reloadKey, setReloadKey] = useState(0);
 
-  // ==========================================================
-  // SECTION 5: LOAD EXISTING USER
-  // Retrieve existing account details from the backend.
-  // ==========================================================
-
+  // SECTION 3: Load all information needed for a safe edit.
   useEffect(() => {
     let cancelled = false;
+    const id = Number(userId);
+    setLoading(true);
+    setLoadError("");
+    setError("");
+    setSuccessMessage("");
+    setUser(null);
+
+    if (!Number.isSafeInteger(id) || id <= 0) {
+      setLoadError("Invalid User ID.");
+      setLoading(false);
+      return () => { cancelled = true; };
+    }
 
     async function loadData() {
-      const id = Number(userId);
-
-      if (!Number.isSafeInteger(id) || id <= 0) {
-        setError("Invalid User ID.");
-        setLoading(false);
-        return;
-      }
-
       try {
-        const [userData, usersData, unitData] =
-          await Promise.all([
-            getUser(id),
-            getUsers(),
-            getManagementUnits(),
-          ]);
-
+        const [userData, usersData, unitData] = await Promise.all([
+          getUser(id),
+          getUsers(),
+          getManagementUnits(),
+        ]);
         if (cancelled) return;
-
         setUser(userData);
         setUsers(usersData);
         setManagementUnits(unitData);
-
         setFullName(userData.full_name);
         setUsername(userData.username);
-
       } catch (err) {
-        if (cancelled) return;
-
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Failed to load user information."
-        );
-
-      } finally {
         if (!cancelled) {
-          setLoading(false);
+          setLoadError(err instanceof Error ? err.message : "Failed to load user information.");
         }
+      } finally {
+        if (!cancelled) setLoading(false);
       }
     }
 
-    loadData();
+    void loadData();
+    return () => { cancelled = true; };
+  }, [userId, reloadKey]);
 
-    return () => {
-      cancelled = true;
-    };
-  }, [userId]);
-
-  // ==========================================================
-  // SECTION 6: DISPLAY MANAGEMENT UNIT
-  // Show the assigned unit without allowing changes.
-  // ==========================================================
+  // SECTION 4: Validation is guidance; the backend is authoritative.
+  const trimmedName = fullName.trim();
+  const trimmedUsername = username.trim();
+  const duplicateUsername = useMemo(() => {
+    const candidate = trimmedUsername.toLowerCase();
+    return Boolean(candidate) && users.some(
+      (item) => item.id !== user?.id && item.username.toLowerCase() === candidate,
+    );
+  }, [trimmedUsername, users, user?.id]);
+  const usernameHasWhitespace = username !== trimmedUsername;
+  const hasChanges = Boolean(user) && (
+    trimmedName !== user?.full_name || username !== user?.username
+  );
+  const formIsValid = Boolean(trimmedName) && trimmedName.length <= 150 &&
+    Boolean(trimmedUsername) && trimmedUsername.length <= 100 &&
+    !usernameHasWhitespace && !duplicateUsername;
 
   const managementUnitName = managementUnits.find(
-    (unit) => unit.id === user?.upazila_id
+    (unit) => unit.id === user?.upazila_id,
   )?.name ?? (user?.upazila_id == null ? "Not assigned" : "Unknown unit");
-
-  // ==========================================================
-  // SECTION 7: DISPLAY REPORTING OFFICER
-  // This information is read-only on this page.
-  // ==========================================================
-
   const reportingOfficerName = users.find(
-    (item) => item.id === user?.supervisor_id
-  )?.full_name ?? (
-    user?.supervisor_id == null
-      ? "Not assigned"
-      : "Officer not found"
-  );
-
-  // ==========================================================
-  // SECTION 8: NAVIGATION
-  // Return to the Users Management page.
-  // ==========================================================
+    (item) => item.id === user?.supervisor_id,
+  )?.full_name ?? (user?.supervisor_id == null ? "Not assigned" : "Officer not found");
 
   function handleBack() {
     navigate("/admin/users");
   }
 
-  // ==========================================================
-  // SECTION 9: SAVE USER PROFILE
-  // Update only Full Name and Username.
-  // ==========================================================
+  function handleReset() {
+    if (!user) return;
+    setFullName(user.full_name);
+    setUsername(user.username);
+    setError("");
+    setSuccessMessage("");
+  }
 
-  async function handleSubmit(
-    event: FormEvent<HTMLFormElement>
-  ) {
+  // SECTION 5: Update only the two fields allowed by the existing API.
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
     if (!user || submitting) return;
-
     setError("");
     setSuccessMessage("");
 
-    // CHECK 1: Validate Full Name.
-    if (!fullName.trim()) {
-      setError("Full Name is required.");
+    if (!trimmedName || trimmedName.length > 150) {
+      setError("Full Name is required and must not exceed 150 characters.");
       return;
     }
-
-    if (fullName.length > 150) {
-      setError("Full Name cannot exceed 150 characters.");
+    if (!trimmedUsername || trimmedUsername.length > 100 || usernameHasWhitespace) {
+      setError("Username is required, must not exceed 100 characters, and cannot have leading or trailing spaces.");
       return;
     }
-
-    // CHECK 2: Validate Username.
-    if (!username.trim()) {
-      setError("Username is required.");
+    if (duplicateUsername) {
+      setError("This username is already in use. Choose another username.");
       return;
     }
-
-    if (
-      username !== username.trim() ||
-      username.length > 100
-    ) {
-      setError(
-        "Username must not contain leading or trailing spaces and cannot exceed 100 characters."
-      );
-      return;
-    }
-
-    // CHECK 3: Do not submit if nothing changed.
-    if (
-      fullName === user.full_name &&
-      username === user.username
-    ) {
+    if (!hasChanges) {
       setSuccessMessage("No changes were necessary.");
       return;
     }
 
-    // ========================================================
-    // SECTION 10: SEND UPDATE REQUEST
-    // Server validates Admin permissions and uniqueness.
-    // ========================================================
-
     try {
       setSubmitting(true);
-
-      const updatedUser = await updateUser(
-        user.id,
-        {
-          full_name: fullName,
-          username: username,
-        }
-      );
-
+      const updatedUser = await updateUser(user.id, {
+        full_name: trimmedName,
+        username,
+      });
       setUser(updatedUser);
-
       setFullName(updatedUser.full_name);
       setUsername(updatedUser.username);
-
-      setSuccessMessage(
-        "User information updated successfully."
-      );
-
+      setUsers((previous) => previous.map((item) =>
+        item.id === updatedUser.id ? updatedUser : item,
+      ));
+      setSuccessMessage("User information updated successfully.");
     } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Failed to update user information."
-      );
-
+      setError(err instanceof Error ? err.message : "Failed to update user information.");
     } finally {
       setSubmitting(false);
     }
   }
 
-  // ==========================================================
-  // SECTION 11: LOADING STATE
-  // ==========================================================
-
+  // SECTION 6: Loading and recoverable error states.
   if (loading) {
-    return (
-      <main className="bmda-edit-user">
-        <p className="eu-notice" role="status">
-          Loading user information...
-        </p>
-      </main>
-    );
+    return <main className="bmda-edit-user"><p className="eu-notice" role="status">Loading user information...</p></main>;
   }
-
-  // ==========================================================
-  // SECTION 12: USER NOT FOUND / LOAD ERROR
-  // ==========================================================
 
   if (!user) {
     return (
       <main className="bmda-edit-user">
-        <h1>Edit User</h1>
-
-        <p className="eu-alert eu-alert-error" role="alert">
-          {error || "User not found."}
-        </p>
-
-        <button
-          type="button"
-          className="eu-button eu-button-outline"
-          onClick={handleBack}
-        >
-          Back to Users
-        </button>
+        <header className="eu-header"><div><p className="eu-eyebrow">BMDA · Users Management</p><h1>Edit User</h1></div></header>
+        <p className="eu-alert eu-alert-error" role="alert">{loadError || "User not found."}</p>
+        <div className="eu-actions">
+          <button type="button" className="eu-button eu-button-primary" onClick={() => setReloadKey((value) => value + 1)}>Retry Loading</button>
+          <button type="button" className="eu-button eu-button-outline" onClick={handleBack}>Back to Users</button>
+        </div>
       </main>
     );
   }
 
-  // ==========================================================
-  // SECTION 13: EDIT USER FORM
-  // Present editable and read-only account information.
-  // ==========================================================
-
+  // SECTION 7: Editable profile and protected read-only account identity.
   return (
     <main className="bmda-edit-user">
-
       <header className="eu-header">
         <div>
-          <p className="eu-eyebrow">
-            BMDA · Users Management
-          </p>
-
+          <p className="eu-eyebrow">BMDA · Users Management</p>
           <h1>Edit User</h1>
-
-          <p>
-            Correct the user's name and username
-            without changing their account identity.
-          </p>
+          <p>Correct the user's name and username without changing their account identity.</p>
         </div>
-
-        <button
-          type="button"
-          className="eu-button eu-button-outline"
-          onClick={handleBack}
-        >
-          Back to Users
-        </button>
+        <button type="button" className="eu-button eu-button-outline" onClick={handleBack} disabled={submitting}>Back to Users</button>
       </header>
 
-      <section
-        className="eu-card"
-        aria-labelledby="eu-form-title"
-      >
-
+      <section className="eu-card" aria-labelledby="eu-form-title">
         <div className="eu-card-heading">
-          <h2 id="eu-form-title">
-            User Information
-          </h2>
-
-          <p>
-            Only Full Name and Username can be edited.
-            Other account information is protected.
-          </p>
+          <h2 id="eu-form-title">User Information</h2>
+          <p>Only Full Name and Username can be edited. All other account information is protected.</p>
         </div>
-
         <form onSubmit={handleSubmit}>
-
           <div className="eu-form-grid">
-
-            {/* SECTION 14: Editable Full Name */}
             <div className="eu-field">
-              <label htmlFor="editFullName">
-                Full Name *
-              </label>
-
-              <input
-                id="editFullName"
-                type="text"
-                value={fullName}
-                maxLength={150}
-                autoComplete="name"
-                onChange={(event) => {
-                  setFullName(event.target.value);
-                  setSuccessMessage("");
-                }}
-                required
-                disabled={submitting}
-              />
+              <label htmlFor="editFullName">Full Name *</label>
+              <input id="editFullName" type="text" value={fullName} maxLength={150} autoComplete="name" required disabled={submitting}
+                onChange={(event) => { setFullName(event.target.value); setError(""); setSuccessMessage(""); }} />
             </div>
-
-            {/* SECTION 15: Editable Username */}
             <div className="eu-field">
-              <label htmlFor="editUsername">
-                Username *
-              </label>
-
-              <input
-                id="editUsername"
-                type="text"
-                value={username}
-                maxLength={100}
-                autoComplete="username"
-                onChange={(event) => {
-                  setUsername(event.target.value);
-                  setSuccessMessage("");
-                }}
-                required
-                disabled={submitting}
-              />
+              <label htmlFor="editUsername">Username *</label>
+              <input id="editUsername" type="text" value={username} maxLength={100} autoComplete="username" required disabled={submitting}
+                aria-invalid={duplicateUsername || usernameHasWhitespace} aria-describedby="eu-username-help"
+                onChange={(event) => { setUsername(event.target.value); setError(""); setSuccessMessage(""); }} />
+              <p id="eu-username-help" className={duplicateUsername || usernameHasWhitespace ? "eu-alert eu-alert-error" : "eu-notice"} role={duplicateUsername || usernameHasWhitespace ? "alert" : "status"}>
+                {duplicateUsername ? "Username already exists. Choose a different one." : usernameHasWhitespace ? "Remove leading or trailing spaces." : "Username must be unique."}
+              </p>
             </div>
-
-            {/* SECTION 16: Read-only User ID */}
-            <div className="eu-field">
-              <label htmlFor="editUserId">
-                User ID
-              </label>
-
-              <input
-                id="editUserId"
-                value={user.id}
-                readOnly
-                aria-readonly="true"
-                className="eu-readonly"
-              />
-            </div>
-
-            {/* SECTION 17: Read-only Role */}
-            <div className="eu-field">
-              <label htmlFor="editRole">
-                Role
-              </label>
-
-              <input
-                id="editRole"
-                value={roleLabels[user.role] || user.role}
-                readOnly
-                aria-readonly="true"
-                className="eu-readonly"
-              />
-            </div>
-
-            {/* SECTION 18: Read-only Management Unit */}
-            <div className="eu-field">
-              <label htmlFor="editManagementUnit">
-                Management Unit
-              </label>
-
-              <input
-                id="editManagementUnit"
-                value={managementUnitName}
-                readOnly
-                aria-readonly="true"
-                className="eu-readonly"
-              />
-            </div>
-
-            {/* SECTION 19: Read-only Reporting Officer */}
-            <div className="eu-field">
-              <label htmlFor="editReportingOfficer">
-                Reporting Officer
-              </label>
-
-              <input
-                id="editReportingOfficer"
-                value={reportingOfficerName}
-                readOnly
-                aria-readonly="true"
-                className="eu-readonly"
-              />
-            </div>
-
-            {/* SECTION 20: Read-only Account Status */}
-            <div className="eu-field">
-              <label htmlFor="editAccountStatus">
-                Account Status
-              </label>
-
-              <input
-                id="editAccountStatus"
-                value={user.is_active ? "Active" : "Inactive"}
-                readOnly
-                aria-readonly="true"
-                className="eu-readonly"
-              />
-            </div>
-
+            <div className="eu-field"><label htmlFor="editUserId">User ID</label><input id="editUserId" value={user.id} readOnly aria-readonly="true" className="eu-readonly" /></div>
+            <div className="eu-field"><label htmlFor="editRole">Role</label><input id="editRole" value={roleLabels[user.role] || user.role} readOnly aria-readonly="true" className="eu-readonly" /></div>
+            <div className="eu-field"><label htmlFor="editManagementUnit">Management Unit</label><input id="editManagementUnit" value={managementUnitName} readOnly aria-readonly="true" className="eu-readonly" /></div>
+            <div className="eu-field"><label htmlFor="editReportingOfficer">Reporting Officer</label><input id="editReportingOfficer" value={reportingOfficerName} readOnly aria-readonly="true" className="eu-readonly" /></div>
+            <div className="eu-field"><label htmlFor="editAccountStatus">Account Status</label><input id="editAccountStatus" value={user.is_active ? "Active" : "Inactive"} readOnly aria-readonly="true" className="eu-readonly" /></div>
           </div>
 
-          {/* SECTION 21: Error and Success Messages */}
-          {error && (
-            <p className="eu-alert eu-alert-error" role="alert">
-              {error}
-            </p>
-          )}
+          {error && <p className="eu-alert eu-alert-error" role="alert">{error}</p>}
+          {successMessage && <p className="eu-alert eu-alert-success" role="status">{successMessage}</p>}
 
-          {successMessage && (
-            <p className="eu-alert eu-alert-success" role="status">
-              {successMessage}
-            </p>
-          )}
-
-          {/* SECTION 22: Form Actions */}
           <div className="eu-actions">
-
-            <button
-              type="submit"
-              className="eu-button eu-button-primary"
-              disabled={submitting}
-            >
+            <button type="submit" className="eu-button eu-button-primary" disabled={submitting || !hasChanges || !formIsValid}>
               {submitting ? "Saving..." : "Save Changes"}
             </button>
-
-            <button
-              type="button"
-              className="eu-button eu-button-outline"
-              onClick={handleBack}
-              disabled={submitting}
-            >
-              Cancel
-            </button>
-
+            <button type="button" className="eu-button eu-button-outline" onClick={handleReset} disabled={submitting || !hasChanges}>Discard Changes</button>
+            <button type="button" className="eu-button eu-button-outline" onClick={handleBack} disabled={submitting}>Cancel</button>
           </div>
-
         </form>
       </section>
     </main>
