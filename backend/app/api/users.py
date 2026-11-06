@@ -12,6 +12,8 @@ from fastapi import (
     status,
 )
 
+from pydantic import BaseModel, ConfigDict
+
 from sqlalchemy import select, func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -543,6 +545,122 @@ def update_user(
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail="Username conflicts with an existing account.",
+        )
+
+    db.refresh(user)
+    return user
+
+
+# ============================================================
+# SECTION 11: ADMIN-ONLY ACCOUNT STATUS CHANGE
+# Soft status changes only; never delete users or historical data.
+# ============================================================
+
+class UserStatusRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    is_active: bool
+
+
+@router.patch(
+    "/{user_id}/status",
+    response_model=UserResponse,
+)
+def change_user_status(
+    user_id: int,
+    request: UserStatusRequest,
+    db: Session = Depends(get_db),
+    current_admin: User = Depends(require_admin),
+):
+    if user_id <= 0:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found.",
+        )
+
+    # Read the unit before locking. Locking the unit first follows
+    # the creation endpoint's unit -> user lock order.
+    target = db.get(User, user_id)
+    if target is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found.",
+        )
+
+    if target.role == UserRole.ADMIN.value or target.id == current_admin.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin accounts cannot be changed through this endpoint.",
+        )
+
+    if target.upazila_id is not None:
+        db.scalar(
+            select(Upazila)
+            .where(Upazila.id == target.upazila_id)
+            .with_for_update()
+        )
+
+    user = db.scalar(
+        select(User)
+        .where(User.id == user_id)
+        .with_for_update()
+    )
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found.",
+        )
+
+    if user.role == UserRole.ADMIN.value or user.id == current_admin.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin accounts cannot be changed through this endpoint.",
+        )
+
+    if user.is_active == request.is_active:
+        return user
+
+    if not request.is_active:
+        # Active direct reports must be handled first; keep their
+        # parent active until the hierarchy is safe to disable.
+        active_child_id = db.scalar(
+            select(User.id).where(
+                User.supervisor_id == user.id,
+                User.is_active.is_(True),
+            ).limit(1)
+        )
+        if active_child_id is not None:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Deactivate active direct reports before deactivating this account.",
+            )
+    else:
+        # Re-enabling a subordinate under an inactive officer would
+        # produce an unusable reporting chain.
+        if user.supervisor_id is not None:
+            parent = db.scalar(
+                select(User)
+                .where(User.id == user.supervisor_id)
+                .with_for_update()
+            )
+            if parent is None or not parent.is_active:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail="Activate the reporting officer before reactivating this account.",
+                )
+            if parent.upazila_id != user.upazila_id and user.role != UserRole.ASSISTANT_ENGINEER.value:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail="Reporting officer belongs to another management unit.",
+                )
+
+    user.is_active = request.is_active
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Account status could not be updated.",
         )
 
     db.refresh(user)
