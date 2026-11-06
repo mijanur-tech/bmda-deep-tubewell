@@ -3,7 +3,7 @@
 // Import React hooks, form types and existing API functions.
 // ============================================================
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import "./CreateUserPage.css";
@@ -42,6 +42,8 @@ function CreateUserPage() {
 
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [refreshWarning, setRefreshWarning] = useState("");
+  const [reloadKey, setReloadKey] = useState(0);
 
   // ==========================================================
   // SECTION 4: FORM STATES
@@ -66,7 +68,10 @@ function CreateUserPage() {
   // ==========================================================
 
   useEffect(() => {
+    let cancelled = false;
     async function loadData() {
+      setLoading(true);
+      setError("");
       try {
         const [managementUnitData, usersData] =
           await Promise.all([
@@ -74,23 +79,22 @@ function CreateUserPage() {
             getUsers(),
           ]);
 
-        setManagementUnits(managementUnitData);
-        setUsers(usersData);
-
-      } catch (err) {
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("Failed to load required data.");
+        if (!cancelled) {
+          setManagementUnits(managementUnitData);
+          setUsers(usersData);
         }
 
+      } catch (err) {
+        if (!cancelled) setError(err instanceof Error ? err.message : "Failed to load required data.");
+
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     }
 
-    loadData();
-  }, []);
+    void loadData();
+    return () => { cancelled = true; };
+  }, [reloadKey]);
 
 
   // ==========================================================
@@ -155,6 +159,28 @@ function CreateUserPage() {
   );
 
 
+  // SECTION 10A: Frontend guidance; backend remains authoritative.
+  const duplicateUsername = useMemo(() => {
+    const candidate = username.trim().toLowerCase();
+    return candidate.length > 0 && users.some(
+      (user) => user.username.toLowerCase() === candidate,
+    );
+  }, [username, users]);
+
+  const selectedUnit = managementUnits.find(
+    (item) => String(item.id) === managementUnitId,
+  );
+  const eligibleParents = role === "supervisor"
+    ? availableAssistantEngineers
+    : role === "field_user" ? availableSupervisors : [];
+  const selectedParentIsValid = eligibleParents.some(
+    (item) => String(item.id) === parentUserId,
+  );
+  const existingAssistantEngineer = role === "assistant_engineer" && users.some(
+    (user) => user.role === "assistant_engineer" &&
+      String(user.upazila_id) === managementUnitId,
+  );
+
   // ==========================================================
   // SECTION 11: FORM SUBMISSION
   // Validate input and create a new user through the API.
@@ -164,8 +190,10 @@ function CreateUserPage() {
     event: FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
+    if (submitting) return;
 
     setError("");
+    setRefreshWarning("");
     setSuccessMessage("");
 
     // CHECK 1: Full Name.
@@ -177,6 +205,11 @@ function CreateUserPage() {
     // CHECK 2: Username.
     if (!username.trim()) {
       setError("Username is required.");
+      return;
+    }
+
+    if (duplicateUsername) {
+      setError("This username is already in use. Choose another username.");
       return;
     }
 
@@ -198,6 +231,15 @@ function CreateUserPage() {
       return;
     }
 
+    if (!selectedUnit) {
+      setError("Select a valid Management Unit.");
+      return;
+    }
+    if (existingAssistantEngineer) {
+      setError("An Assistant Engineer is already registered in this unit.");
+      return;
+    }
+
     // CHECK 6: Supervisor requires an Assistant Engineer.
     if (role === "supervisor" && !parentUserId) {
       setError(
@@ -211,6 +253,11 @@ function CreateUserPage() {
       setError(
         "Field User-এর জন্য Sub-Assistant Engineer নির্বাচন করতে হবে."
       );
+      return;
+    }
+
+    if (role !== "assistant_engineer" && !selectedParentIsValid) {
+      setError("Select an active reporting officer from the chosen Management Unit.");
       return;
     }
 
@@ -247,9 +294,13 @@ function CreateUserPage() {
       setManagementUnitId("");
       setParentUserId("");
 
-      // Refresh the user list.
-      const refreshedUsers = await getUsers();
-      setUsers(refreshedUsers);
+      // Creation already succeeded. A subsequent list refresh is non-critical.
+      try {
+        const refreshedUsers = await getUsers();
+        setUsers(refreshedUsers);
+      } catch {
+        setRefreshWarning("User created successfully, but the list could not refresh. Return to Users to reload it.");
+      }
 
     } catch (err) {
       if (err instanceof Error) {
@@ -268,10 +319,16 @@ function CreateUserPage() {
   // SECTION 13: LOADING / FORM PRESENTATION
   // Keep all original creation rules and API calls unchanged.
   // ==========================================================
-  if (loading) {
+  if (loading || (error && managementUnits.length === 0 && users.length === 0)) {
     return (
       <main className="bmda-create-user">
-        <p className="cu-notice" role="status">Loading required data...</p>
+        <p className="cu-notice" role={error ? "alert" : "status"}>
+          {loading ? "Loading required data..." : error}
+        </p>
+        {!loading && <button type="button" className="cu-button cu-button-outline"
+          onClick={() => setReloadKey((key) => key + 1)}>Retry loading</button>}
+        <button type="button" className="cu-button cu-button-outline"
+          onClick={handleBack}>Back to Users</button>
       </main>
     );
   }
@@ -310,7 +367,11 @@ function CreateUserPage() {
               <label htmlFor="username">Username <span aria-hidden="true">*</span></label>
               <input id="username" type="text" value={username}
                 onChange={(event) => setUsername(event.target.value)}
-                autoComplete="username" required disabled={submitting} />
+                autoComplete="username" required disabled={submitting}
+                aria-invalid={duplicateUsername} aria-describedby="cu-username-help" />
+              <p id="cu-username-help" className="cu-help" role={duplicateUsername ? "alert" : undefined}>
+                {duplicateUsername ? "Username already exists. Choose a different one." : "Username must be unique."}
+              </p>
             </div>
 
             <div className="cu-field">
@@ -328,7 +389,7 @@ function CreateUserPage() {
                 <option value="" disabled>Select Role</option>
                 <option value="assistant_engineer">Assistant Engineer</option>
                 <option value="supervisor">Sub-Assistant Engineer</option>
-                <option value="field_user">Field User</option>
+                <option value="field_user">Field Visitor</option>
               </select>
             </div>
 
@@ -342,6 +403,9 @@ function CreateUserPage() {
                   <option key={unit.id} value={unit.id}>{unit.name}</option>
                 ))}
               </select>
+              {existingAssistantEngineer && (
+                <p className="cu-help" role="alert">This unit already has an Assistant Engineer. Only one is permitted.</p>
+              )}
             </div>
 
             {/* SECTION 16: Conditional reporting officer selection */}
@@ -387,9 +451,10 @@ function CreateUserPage() {
           {/* SECTION 17: Messages and form actions */}
           {error && <p className="cu-alert cu-alert-error" role="alert">{error}</p>}
           {successMessage && <p className="cu-alert cu-alert-success" role="status">{successMessage}</p>}
+          {refreshWarning && <p className="cu-alert cu-alert-error" role="status">{refreshWarning}</p>}
 
           <div className="cu-actions">
-            <button className="cu-button cu-button-primary" type="submit" disabled={submitting}>
+            <button className="cu-button cu-button-primary" type="submit" disabled={submitting || duplicateUsername || existingAssistantEngineer}>
               {submitting ? "Creating..." : "Create User"}
             </button>
             <button className="cu-button cu-button-outline" type="button" onClick={handleBack}>
