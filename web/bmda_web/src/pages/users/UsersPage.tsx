@@ -2,7 +2,7 @@
 // BMDA Phase 06 / Step 34 â€” User Directory
 // Existing admin-only API, navigation, and user data are preserved.
 // ============================================================
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   changeUserStatus,
@@ -54,6 +54,13 @@ function UsersPage() {
   const [teamError, setTeamError] = useState("");
   const [teamBranches, setTeamBranches] = useState<TeamBranch[]>([]);
   const [teamVisitors, setTeamVisitors] = useState<UserItem[]>([]);
+  const teamPanelRef = useRef<HTMLElement | null>(null);
+
+  // Step 39.20: Make the already-rendered team visible after every View Team click.
+  useEffect(() => {
+    if (selectedTeamId === null) return;
+    teamPanelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [selectedTeamId, teamReloadKey]);
 
   useEffect(() => {
     let cancelled = false;
@@ -205,7 +212,7 @@ function UsersPage() {
       </section>
 
       {selectedTeamUser && (
-        <section className="users-team-panel" aria-label={`Team of ${selectedTeamUser.full_name}`}>
+        <section ref={teamPanelRef} className="users-team-panel" aria-label={`Team of ${selectedTeamUser.full_name}`}>
           <div className="users-team-heading">
             <div>
               <p className="users-team-eyebrow">READ-ONLY REPORTING HIERARCHY</p>
