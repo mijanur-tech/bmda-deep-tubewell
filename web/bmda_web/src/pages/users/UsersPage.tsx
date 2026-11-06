@@ -1,11 +1,12 @@
 // ============================================================
-// BMDA Phase 06 / Step 34 — User Directory
+// BMDA Phase 06 / Step 34 â€” User Directory
 // Existing admin-only API, navigation, and user data are preserved.
 // ============================================================
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   changeUserStatus,
+  getDirectSubordinates,
   getManagementUnits,
   getUsers,
   type ManagementUnit,
@@ -14,6 +15,13 @@ import {
 import "./UsersPage.css";
 
 const PAGE_SIZE = 10;
+
+type TeamBranch = { supervisor: UserItem; visitors: UserItem[] };
+
+function StatusPill({ active }: { active: boolean }) {
+  return <span className={`users-status ${active ? "users-status-active" : "users-status-inactive"}`}>{active ? "Active" : "Inactive"}</span>;
+}
+
 
 function getRoleName(role: string): string {
   switch (role) {
@@ -40,6 +48,12 @@ function UsersPage() {
   const [pendingUserId, setPendingUserId] = useState<number | null>(null);
   const [actionError, setActionError] = useState("");
   const [actionSuccess, setActionSuccess] = useState("");
+  const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
+  const [teamReloadKey, setTeamReloadKey] = useState(0);
+  const [teamLoading, setTeamLoading] = useState(false);
+  const [teamError, setTeamError] = useState("");
+  const [teamBranches, setTeamBranches] = useState<TeamBranch[]>([]);
+  const [teamVisitors, setTeamVisitors] = useState<UserItem[]>([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -65,6 +79,40 @@ function UsersPage() {
     void loadData();
     return () => { cancelled = true; };
   }, [reloadKey]);
+
+  const selectedTeamUser = users.find((item) => item.id === selectedTeamId) ?? null;
+
+  // Fetch only when Admin opens a team; prevent stale responses after switching teams.
+  useEffect(() => {
+    if (selectedTeamId === null) return;
+    const selected = users.find((item) => item.id === selectedTeamId);
+    if (!selected || !["assistant_engineer", "supervisor"].includes(selected.role)) return;
+    let cancelled = false;
+    async function loadTeam() {
+      setTeamLoading(true);
+      setTeamError("");
+      setTeamBranches([]);
+      setTeamVisitors([]);
+      try {
+        const direct = await getDirectSubordinates(selectedTeamId as number);
+        if (selected?.role === "assistant_engineer") {
+          const branches = await Promise.all(direct.map(async (supervisor) => ({
+            supervisor,
+            visitors: await getDirectSubordinates(supervisor.id),
+          })));
+          if (!cancelled) setTeamBranches(branches);
+        } else if (!cancelled) {
+          setTeamVisitors(direct);
+        }
+      } catch (err) {
+        if (!cancelled) setTeamError(err instanceof Error ? err.message : "Unable to load team.");
+      } finally {
+        if (!cancelled) setTeamLoading(false);
+      }
+    }
+    void loadTeam();
+    return () => { cancelled = true; };
+  }, [selectedTeamId, teamReloadKey]);
 
   async function handleStatusChange(user: UserItem) {
     if (pendingUserId !== null || user.role === "admin") return;
@@ -156,6 +204,57 @@ function UsersPage() {
         <strong>{users.length}</strong>
       </section>
 
+      {selectedTeamUser && (
+        <section className="users-team-panel" aria-label={`Team of ${selectedTeamUser.full_name}`}>
+          <div className="users-team-heading">
+            <div>
+              <p className="users-team-eyebrow">READ-ONLY REPORTING HIERARCHY</p>
+              <h2>Team of {selectedTeamUser.full_name}</h2>
+              <p>{getRoleName(selectedTeamUser.role)} · {unitNames.get(selectedTeamUser.upazila_id ?? -1) ?? "No management unit"}</p>
+            </div>
+            <button type="button" className="users-btn users-btn-outline" onClick={() => setSelectedTeamId(null)}>Close team</button>
+          </div>
+          {teamLoading ? <p className="users-team-message" role="status">Loading team hierarchy...</p> : teamError ? (
+            <div className="users-notice users-error" role="alert">
+              <p>Could not load team: {teamError}</p>
+              <button type="button" className="users-btn users-btn-outline" onClick={() => setTeamReloadKey((key) => key + 1)}>Retry team</button>
+            </div>
+          ) : selectedTeamUser.role === "assistant_engineer" ? (
+            teamBranches.length === 0 ? <p className="users-team-message">No directly reporting Sub-Assistant Engineers.</p> : (
+              <div className="users-team-branches">
+                {teamBranches.map(({ supervisor, visitors }) => (
+                  <article className="users-team-branch" key={supervisor.id}>
+                    <div className="users-team-person users-team-supervisor">
+                      <div><strong>{supervisor.full_name}</strong><span>Sub-Assistant Engineer · {supervisor.username}</span></div>
+                      <StatusPill active={supervisor.is_active} />
+                    </div>
+                    <div className="users-team-children">
+                      {visitors.length === 0 ? <p className="users-team-empty">No directly reporting Field Visitors.</p> : visitors.map((visitor) => (
+                        <div className="users-team-person" key={visitor.id}>
+                          <div><strong>{visitor.full_name}</strong><span>Field Visitor · {visitor.username}</span></div>
+                          <StatusPill active={visitor.is_active} />
+                        </div>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )
+          ) : teamVisitors.length === 0 ? <p className="users-team-message">No directly reporting Field Visitors.</p> : (
+            <div className="users-team-branches">
+              <article className="users-team-branch"><div className="users-team-children">
+                {teamVisitors.map((visitor) => (
+                  <div className="users-team-person" key={visitor.id}>
+                    <div><strong>{visitor.full_name}</strong><span>Field Visitor · {visitor.username}</span></div>
+                    <StatusPill active={visitor.is_active} />
+                  </div>
+                ))}
+              </div></article>
+            </div>
+          )}
+        </section>
+      )}
+
       <section className="users-table-card" aria-label="Registered users">
         <div style={{ display: "flex", flexWrap: "wrap", gap: 12, padding: 16, alignItems: "end" }}>
           <label style={{ flex: "2 1 220px", display: "grid", gap: 5 }}>
@@ -208,7 +307,7 @@ function UsersPage() {
         ) : (
           <>
             <div className="users-table-caption" aria-live="polite">
-              Showing <strong>{filteredUsers.length === 0 ? 0 : start + 1}–{Math.min(start + PAGE_SIZE, filteredUsers.length)}</strong> of <strong>{filteredUsers.length}</strong> matching users ({users.length} total)
+              Showing <strong>{filteredUsers.length === 0 ? 0 : start + 1}â€“{Math.min(start + PAGE_SIZE, filteredUsers.length)}</strong> of <strong>{filteredUsers.length}</strong> matching users ({users.length} total)
             </div>
             <div className="users-table-scroll" role="region" aria-label="Scrollable users table" tabIndex={0}>
               <table className="users-table">
@@ -226,6 +325,14 @@ function UsersPage() {
                       <td>
                         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
                           <button type="button" className="users-btn users-btn-outline" onClick={() => navigate(`/admin/users/${user.id}/edit`)} aria-label={`Edit ${user.full_name}`} disabled={pendingUserId !== null}>Edit</button>
+                          {(user.role === "assistant_engineer" || user.role === "supervisor") && (
+                            <button type="button" className="users-btn users-btn-outline"
+                              aria-label={`View team of ${user.full_name}`}
+                              aria-expanded={selectedTeamId === user.id}
+                              onClick={() => { setSelectedTeamId(user.id); setTeamReloadKey((key) => key + 1); }}>
+                              View Team
+                            </button>
+                          )}
                           {user.role !== "admin" && (
                             <button
                               type="button"

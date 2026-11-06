@@ -1,9 +1,9 @@
 /* ============================================================
-   BMDA USERS MANAGEMENT — GREEN + WHITE
+   BMDA USERS MANAGEMENT â€” GREEN + WHITE
    Styles scoped to this page only.
    ============================================================ */
 
-/* SECTION 1: PAGE SPACING — Keep content away from sidebar */
+/* SECTION 1: PAGE SPACING â€” Keep content away from sidebar */
 .bmda-users-page {
   --users-green: #16834a;
   --users-dark: #125e37;
@@ -164,4 +164,39 @@
   .bmda-users-page .users-page-actions { width: 100%; }
   .bmda-users-page .users-summary { width: 100%; }
   .bmda-users-page .users-table-scroll { max-height: 55vh; }
+}
+
+/* SECTION 8: STEP 39 - READ-ONLY TEAM HIERARCHY */
+.bmda-users-page .users-team-panel {
+  margin-bottom: 24px;
+  padding: 22px;
+  background: #fff;
+  border: 1px solid var(--users-border);
+  border-radius: 14px;
+  box-shadow: 0 5px 18px rgba(19, 74, 38, 0.04);
+}
+.bmda-users-page .users-team-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.bmda-users-page .users-team-heading h2 { margin: 4px 0 6px; color: var(--users-dark); font-size: 21px; }
+.bmda-users-page .users-team-heading p { margin: 0; color: #617869; font-size: 13px; }
+.bmda-users-page .users-team-heading .users-team-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; color: var(--users-green); }
+.bmda-users-page .users-team-branches { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.bmda-users-page .users-team-branch { min-width: 0; border: 1px solid var(--users-border); border-radius: 12px; overflow: hidden; background: #fafdFA; }
+.bmda-users-page .users-team-person { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding: 13px 15px; }
+.bmda-users-page .users-team-person > div { display: grid; gap: 4px; min-width: 0; overflow-wrap: anywhere; }
+.bmda-users-page .users-team-person strong { font-size: 14px; }
+.bmda-users-page .users-team-person span:not(.users-status) { font-size: 12px; color: #617869; }
+.bmda-users-page .users-team-supervisor { background: #e7f4e9; }
+.bmda-users-page .users-team-children { padding-left: 18px; border-left: 3px solid #b9dcc4; margin: 8px 12px 12px; background: #fff; border-radius: 0 8px 8px 0; }
+.bmda-users-page .users-team-children .users-team-person + .users-team-person { border-top: 1px solid #edf2ee; }
+.bmda-users-page .users-team-empty, .bmda-users-page .users-team-message { padding: 14px; color: #617869; font-size: 14px; }
+@media (max-width: 650px) {
+  .bmda-users-page .users-team-panel { padding: 15px; }
+  .bmda-users-page .users-team-heading h2 { font-size: 18px; }
 }

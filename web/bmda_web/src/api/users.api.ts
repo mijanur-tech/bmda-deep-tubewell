@@ -123,3 +123,11 @@ export async function changeUserStatus(
     body: JSON.stringify(data),
   });
 }
+
+// ============================================================
+// SECTION 8: DIRECT REPORTS (READ ONLY)
+// The backend enforces Admin-only access and reporting hierarchy.
+// ============================================================
+export async function getDirectSubordinates(userId: number): Promise<UserItem[]> {
+  return apiRequest(`/users/${userId}/subordinates`, { method: "GET" });
+}
