@@ -1,4 +1,4 @@
-﻿import { apiRequest } from "./client";
+import { apiRequest } from "./client";
 
 // ============================================================
 // SECTION 1: USER DATA TYPES
@@ -101,6 +101,25 @@ export async function updateUser(
 ): Promise<UserItem> {
   return apiRequest(`/users/${userId}`, {
     method: "PUT",
+    body: JSON.stringify(data),
+  });
+}
+
+// ============================================================
+// SECTION 7: ACTIVATE / DEACTIVATE USER
+// Admin-only status change; server validates hierarchy rules.
+// ============================================================
+
+export interface ChangeUserStatusRequest {
+  is_active: boolean;
+}
+
+export async function changeUserStatus(
+  userId: number,
+  data: ChangeUserStatusRequest
+): Promise<UserItem> {
+  return apiRequest(`/users/${userId}/status`, {
+    method: "PATCH",
     body: JSON.stringify(data),
   });
 }

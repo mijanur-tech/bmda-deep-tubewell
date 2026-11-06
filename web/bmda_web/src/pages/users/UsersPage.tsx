@@ -5,6 +5,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
+  changeUserStatus,
   getManagementUnits,
   getUsers,
   type ManagementUnit,
@@ -36,6 +37,9 @@ function UsersPage() {
   const [unit, setUnit] = useState("all");
   const [status, setStatus] = useState("all");
   const [page, setPage] = useState(1);
+  const [pendingUserId, setPendingUserId] = useState<number | null>(null);
+  const [actionError, setActionError] = useState("");
+  const [actionSuccess, setActionSuccess] = useState("");
 
   useEffect(() => {
     let cancelled = false;
@@ -61,6 +65,41 @@ function UsersPage() {
     void loadData();
     return () => { cancelled = true; };
   }, [reloadKey]);
+
+  async function handleStatusChange(user: UserItem) {
+    if (pendingUserId !== null || user.role === "admin") return;
+
+    const nextStatus = !user.is_active;
+    const verb = nextStatus ? "Reactivate" : "Deactivate";
+    const confirmed = window.confirm(
+      `${verb} ${user.full_name} (${user.username})?\n\n` +
+      (nextStatus
+        ? "The account will be able to sign in again if its reporting hierarchy is active."
+        : "The account will no longer be allowed to sign in. Active direct reports must be deactivated first.")
+    );
+    if (!confirmed) return;
+
+    setPendingUserId(user.id);
+    setActionError("");
+    setActionSuccess("");
+
+    try {
+      await changeUserStatus(user.id, { is_active: nextStatus });
+      // Always refresh from the backend rather than assuming local state.
+      const latestUsers = await getUsers();
+      setUsers(latestUsers);
+      setActionSuccess(`${user.full_name} was ${nextStatus ? "reactivated" : "deactivated"} successfully.`);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Unable to change account status.";
+      setActionError(
+        `Could not ${verb.toLowerCase()} ${user.full_name}. ${message} ` +
+        "If this is a hierarchy conflict, update active direct reports or the reporting officer first. " +
+        "Use Retry to refresh the directory if the account may already have changed."
+      );
+    } finally {
+      setPendingUserId(null);
+    }
+  }
 
   const unitNames = useMemo(
     () => new Map(managementUnits.map((item) => [item.id, item.name])),
@@ -151,6 +190,14 @@ function UsersPage() {
           <button type="button" className="users-btn users-btn-outline" onClick={resetFilters}>Clear filters</button>
         </div>
 
+        {actionError && (
+          <div className="users-notice users-error" role="alert">
+            <p>{actionError}</p>
+            <button type="button" className="users-btn users-btn-outline" onClick={() => setReloadKey((key) => key + 1)}>Retry</button>
+          </div>
+        )}
+        {actionSuccess && <p className="users-notice" role="status">{actionSuccess}</p>}
+
         {loading ? (
           <p className="users-notice" role="status">Loading users...</p>
         ) : error ? (
@@ -176,7 +223,23 @@ function UsersPage() {
                       <td>{user.upazila_id == null ? "-" : unitNames.get(user.upazila_id) ?? `ID: ${user.upazila_id}`}</td>
                       <td>{user.supervisor_id == null ? "-" : userNames.get(user.supervisor_id) ?? `User ID: ${user.supervisor_id}`}</td>
                       <td><span className={`users-status ${user.is_active ? "users-status-active" : "users-status-inactive"}`}>{user.is_active ? "Yes" : "No"}</span></td>
-                      <td><button type="button" className="users-btn users-btn-outline" onClick={() => navigate(`/admin/users/${user.id}/edit`)} aria-label={`Edit ${user.full_name}`}>Edit</button></td>
+                      <td>
+                        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                          <button type="button" className="users-btn users-btn-outline" onClick={() => navigate(`/admin/users/${user.id}/edit`)} aria-label={`Edit ${user.full_name}`} disabled={pendingUserId !== null}>Edit</button>
+                          {user.role !== "admin" && (
+                            <button
+                              type="button"
+                              className="users-btn users-btn-outline"
+                              style={user.is_active ? { color: "#9f1239", borderColor: "#fda4af" } : { color: "#166534", borderColor: "#86efac" }}
+                              disabled={pendingUserId !== null}
+                              aria-label={`${user.is_active ? "Deactivate" : "Reactivate"} ${user.full_name}`}
+                              onClick={() => void handleStatusChange(user)}
+                            >
+                              {pendingUserId === user.id ? "Saving..." : user.is_active ? "Deactivate" : "Reactivate"}
+                            </button>
+                          )}
+                        </div>
+                      </td>
                     </tr>
                   ))}
                   {visibleUsers.length === 0 && <tr><td colSpan={8} className="users-empty">{users.length === 0 ? "No users registered." : "No users match the selected filters."}</td></tr>}
