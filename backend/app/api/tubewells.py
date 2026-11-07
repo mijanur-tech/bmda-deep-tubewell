@@ -27,7 +27,6 @@ from app.core.tubewell_management import (
 
 from app.db.database import get_db
 from app.models.tubewell import Tubewell
-from app.models.tubewell_assignment import TubewellAssignment
 from app.models.upazila import Upazila
 from app.models.user import User
 
@@ -74,8 +73,7 @@ def require_field_user(
 
 # ============================================================
 # SECTION 3A: ROLE-SCOPED TUBEWELL READ ACCESS
-# Admin: all units; AE: own unit; Supervisor: active assignments
-# belonging to their directly supervised Field Users.
+# Admin: all units; AE and Supervisor: own management unit.
 # ============================================================
 
 def require_tubewell_reader(
@@ -105,21 +103,10 @@ def scoped_tubewells_query(current_user: User):
             Tubewell.management_unit_id == current_user.upazila_id
         )
     if current_user.role == UserRole.SUPERVISOR.value:
-        assigned_ids = (
-            select(TubewellAssignment.tubewell_id)
-            .join(User, User.id == TubewellAssignment.field_user_id)
-            .where(
-                TubewellAssignment.ended_at.is_(None),
-                User.role == UserRole.FIELD_USER.value,
-                User.supervisor_id == current_user.id,
-                User.upazila_id == current_user.upazila_id,
-            )
-        )
         if current_user.upazila_id is None:
             return query.where(text("false"))
         return query.where(
-            Tubewell.management_unit_id == current_user.upazila_id,
-            Tubewell.id.in_(assigned_ids),
+            Tubewell.management_unit_id == current_user.upazila_id
         )
     return query.where(text("false"))
 
@@ -398,7 +385,9 @@ def get_tubewell(
 
 
 # ============================================================
-# SECTION 7: ADMIN - CREATE TUBEWELL
+# SECTION 7: ADMIN / SAE - CREATE TUBEWELL
+# Admin: any management unit; SAE: own management unit only.
+# AE and Field Visitors: forbidden.
 # ============================================================
 
 @router.post(
@@ -409,10 +398,28 @@ def get_tubewell(
 def create_tubewell(
     request: TubewellCreateRequest,
     db: Session = Depends(get_db),
-    current_admin: User = Depends(
-        require_admin
-    ),
+    current_user: User = Depends(get_current_user),
 ):
+    # Authentication validates the user's active status.
+    if current_user.role not in {
+        UserRole.ADMIN.value,
+        UserRole.SUPERVISOR.value,
+    }:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin or Sub-Assistant Engineer access is required to register tubewells.",
+        )
+
+    # Enforce SAE scope on the server; never trust the browser's unit.
+    # Admin is authorized to register across management units.
+    if current_user.role == UserRole.SUPERVISOR.value and (
+        current_user.upazila_id is None
+        or request.management_unit_id != current_user.upazila_id
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Tubewell registration is restricted to your management unit.",
+        )
 
     # --------------------------------------------------------
     # CHECK 1: DTW number
@@ -739,4 +746,3 @@ def change_tubewell_status(
     db.commit()
     db.refresh(tubewell)
     return tubewell
-
